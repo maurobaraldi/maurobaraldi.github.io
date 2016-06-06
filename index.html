@@ -153,14 +153,12 @@ layout: false
 
 - Tipos
 - Escopo
-- Funções, Classes, Instâncias, Módulos
+- Funções, Classes, Instâncias
 - Concorrência
-- Unit Testing
-- Frameworks
+- Testes e Debugging
+- Web
 
 ###.blue[Terceira Parte - Melhores Práticas]
-
-###.blue[Quarta Parte - Kata]
 ]
 ---
 template: inverse
@@ -271,7 +269,7 @@ template: inverse
   ### Características
 ]
 .right-column[
-Python é compilada compilada para bytecode, e então executada pela VM, muito semelhante a Java.
+Python é compilada para bytecode, e então executada pela VM, muito semelhante a Java.
 
 O compilador Python padrão é chamado de .blue[CPython]. Existem algumas variações de compiladores como .blue[Jython] (Java), .blue[Iron Python] (.Net), .blue[Pypy] (Python).
 
@@ -298,7 +296,7 @@ O .blue[self] no Python é o .blue[this] do Java!
 ---
 template: inverse
 
-# Fluxos de controle
+# Controles de fluxo
 ---
 .left-column[
   ## Python
@@ -465,7 +463,7 @@ template: inverse
   ### Expressões
 ]
 .right-column[
-As palavras .blue[and], .blue[or], .blue[not], .blue[&&], .blue[||] e .blue[!], funcionam exatamente igual em Java e C.
+As palavras .blue[and], .blue[or], .blue[not] fazem as vezes .blue[&&], .blue[||] e .blue[!], em Java e C.
 
 Entretanto em Python .blue[==], compara por valor. Java compara numeros por valor e objetos por referência.
 
@@ -721,7 +719,7 @@ A grosso modo, namespaces são apenas recipientes para nomes de mapeamento a obj
 
 O "escopo" em Python define o "nível de hierarquia", no qual buscamos namespaces para certos mapeamentos "nome-a-objeto".
 
-Podemos imaginar um namespace como uma estrutura de dicionário Python, onde as chaves de dicionário representam os nomes e o dicionário valoriza o objeto em si (e esta é também a forma como namespaces são actualmente implementados em Python)
+Podemos imaginar um namespace como uma estrutura de dicionário Python, onde as chaves de dicionário representam os nomes e o dicionário valoriza o objeto em si (e esta é também a forma como namespaces são de fato implementados em Python)
 
 ```python
 a_namespace = {'name_a':object_1, 'name_b':object_2, ...}
@@ -734,11 +732,11 @@ Por exemplo, toda vez que nós definirmos uma função, ela irá criar o seu pr�
   ### Namespace
 ]
 .right-column[
-Há basicamente 2 namespaces, .blue[global] e .blue[local]
+Há basicamente 2 namespaces, do .blue[modulo] e .blue[local]
 
 A grosso modo, namespaces são apenas recipientes para nomes de mapeamento a objetos.
 
-Objetos do namespace global estarão disponiveis para a aplicação de um modo geral.
+Objetos do namespace do modulo estarão disponiveis para o modulo.
 
 Objetos do namespace local só estão disponoveis dentro do escopo onde foram definidos.
 
@@ -932,6 +930,7 @@ def func():
 template: inverse
 
 # Classes
+### Aspectos de Orientação a Objeto
 ---
 .left-column[
   ## Classes
@@ -1007,23 +1006,428 @@ class BaseClass:
 class DerivedClass(BaseClass):
     def __init__(self, *args, **kwargs):
         super(DerivedClass, self).__init__()
-        self.name = kwargs.get("name", self.name)
-
+        if "name" in kwargs:
+            self.name = kwargs['name']
+        
 >>> base = BaseClass()
->>> print(base.attribute)
+>>> print(base.name)
 'Classe Base'
+
 >>> derivada = DerivedClass()
->>> print(derivada.attribute)
-'Classe Derivada'
+>>> print(derivada.name)
+'Classe Base'
+
+>>> descendente = DerivedClass(name='Aha!')
+>>> print(descendente.name)
+'Aha!'
 ```
+O .blue[super] do Python funciona de forma análoga ao do Java, mas você só precisa defini-lo uma vez, não precisando usa-lo para acessar os atributos da super classe.
+
+]
+---
+.left-column[
+  ## Classes
+  ## Herança Multipla
+]
+.right-column[
+Como toda classe é conceitualmente uma instancia de .blue[object], então, herdar atributos uma classe seria herdar da classe, além de .blue[object].
+
+Para evitar o problema mais comum em herança multipla, Python usa um algoritmo de linearização de busca que preserva a ordem de busca da esquerda para direita dos objetos.
+
+Esse mecanismo é chamado de Method Resolution Order ou .blue[MRO].
+```python
+>>> class A(): pass
+>>> A.__mro__
+(<class '__main__.A'>, <type 'object'>)
+
+>>> class B(A): pass
+>>> B.__mro__
+(<class '__main__.B'>, <class '__main__.A'>, <type 'object'>)
+
+>>> class C(A): pass
+>>> class D(B, C): pass
+>>> D.__mro__
+(<class '__main__.D'>, <class '__main__.B'>, 
+<class '__main__.C'>, <class '__main__.A'>, <class 'object'>)
+```
+]
+---
+.left-column[
+  ## Classes
+  ## Atributos
+  ### Privados
+]
+.right-column[
+Não existem atributos privados em Python propriamente dito. Por isso há uma convenção de usar **_** para atributos privados, **__** usado para evitar substituição em caso de um attributo da super classe ter o mesmo nome, e **__**__methodname__**__** são metodos "especiais" que o Python usa.
+
+Sempre haverá um operador ou um metodo builtin chamando um metodo especial.
+
+```python
+class Calculadora():
+
+    def __init__(self, numero):
+        self.numero = numero
+
+    def __add__(self, numero):
+        return self.numero - numero
+
+    def __sub__(self, numero):
+        return self.numero + numero
+
+>>> calc = Calculadora(20)
+>>> calc + 30
+-10
+>>> calc - 30
+50
+```
+]
+---
+template: inverse
+
+# Concorrência
+---
+.left-column[
+  ## Concorrência
+  ## Bibliotecas
+]
+.right-column[
+## <center>std lib</center>
+
+- Threads - .blue[threading]
+- Processos - .blue[multiprocessing]
+- Concorrência - .blue[concurrent.futures]
+- Programação Assincrona - .blue[asyncio]
+  - Coroutines - Multitasking não preenptivo
+- Socket Assincrono - .blue[asyncore]
+- Sinais - .blue[signal]
+
+## <center>3rd party libs</center>
+
+- [Eventlet](http://eventlet.net/) - Concurrencia em nível de rede
+- [Gevent](http://www.gevent.org/) - Corotinas em nível de rede
+- [Twisted](http://twistedmatrix.com/trac/) - Networking lib orientado a evento.
+
+Leitura recomendada: **Generators** e **Global Interpreter Lock** (GIL)
+]
+---
+template: inverse
+
+# Testes e Debuging
+---
+.left-column[
+  ## Testes e Debuging
+  ## Unit Test
+]
+.right-column[
+Python disponibilza mais de um método, bultin, de testar suas aplicações.
+
+.blue[Doctest] é a bibioteca que realiza testes a partir de Docstrings. A documentação da classe ou metodo, com exemplos pode ser aprovaitada como asset para testes a partir da doctest.
+
+```python
+def rq(n):
+    """
+    Calcula a raiz quadrada de de n:
+    
+    >>> rq(2)
+    4
+    
+    >>> rq(10)
+    100
+    """
+    return n * n
+
+if __name__ == '__main__':
+    import doctest
+    doctest.testmod()
+```
+Para testa basta executar
+```bash
+python raiz.py
+```
+]
+---
+.left-column[
+  ## Testes e Debuging
+  ## Docstest
+]
+.right-column[
+Para obter um relatório dos testes, adiciona a opção **-v** (verbose).
+
+```bash
+$ python raiz.py -v
+Trying:
+    rq(2)
+Expecting:
+    4
+ok
+Trying:
+    rq(10)
+Expecting:
+    100
+ok
+1 items had no tests:
+    __main__
+1 items passed all tests:
+   2 tests in __main__.rq
+2 tests in 2 items.
+2 passed and 0 failed.
+Test passed.
+```
+Entretanto, esse seria um test no nível do módulo. Para testar todos os módulos/classes do projeto, a biblioteca .blue[unittest] é a mais adequada.
+]
+---
+.left-column[
+  ## Testes e Debuging
+  ## Unittest
+]
+.right-column[
+A biblioteca unittest foin inspirada na JUnit e tem muitas características similares como, automação de testes, compartilhamento de contexto de setup e shutdown, agrupamento de testes por coleções e outros (.blue[XUnit architecture]).
+
+```python
+import unittest
+
+class TestStringMethods(unittest.TestCase):
+
+    def test_upper(self):
+        self.assertEqual('java'.upper(), 'JAVA')
+
+    def test_isupper(self):
+        self.assertTrue('JAVA'.isupper())
+        self.assertFalse('Java'.isupper())
+
+    def test_split(self):
+        s = 'Java e Python'
+        self.assertEqual(s.split(), ['Java', 'e', 'Python'])
+        # Separador do split não é uma string.
+        with self.assertRaises(TypeError):
+            s.split(2)
+
+if __name__ == '__main__':
+    unittest.main()
+```
+]
+---
+.left-column[
+  ## Testes e Debuging
+  ## Mock
+]
+.right-column[
+A biblioteca de .blue[mock] é parte da stdlib! .blue[&#10084]
+
+Usando mock para interceptar a chamada do metodo de classe.
+
+**module.py**
+```python
+class HelloClass:
+    def hello_method():
+        return "Hello world"
+```
+
+**test_module.py**
+```python
+import unittest
+from unittest import mock
+
+
+class TestHelloClass(unittest.TestCase):
+
+    @mock.patch.object(HelloClass, 'hello_method')
+    def test_get_ip_should_succeed(self, mock_hello):
+        mock_hello.return_value="Quack"
+        hello = HelloClass()
+        self.assertEqual(hello.hello_method(), "Quack")
+
+if __name__ == '__main__':
+    unittest.main()
+```
+]
+---
+.left-column[
+  ## Testes e Debuging
+  ## Debug
+]
+.right-column[
+A biblioteca padrão de debuging em Pyhton chama-se .blue[pdb] (Python Debugger) 
+
+As principais funcionalidades dele são
+
+- Breakpoints (condicionais)
+- Navegação pelo código
+- Inspeção da stack
+- Listar a posição atual em relação a execução
+- Executar código Python no shell interativo
+
+]
+---
+template: inverse
+
+# Web
+---
+.left-column[
+  ## Web
+  ## Frameworks
+]
+.right-column[
+Diferente de .blue[PHP] que foi concebida para ser uma linguagem para web e .blue[Java] que possue uma estrutura criar web apps com sua stack padrão, Python não foi desenhado para se uma linguagem para web apps.
+
+Entretanto, com o tempo ela foi evoluindo e hoje conta com alguns frameworks que facilitam ainda mais esse ecosistema.
+
+**Full Stack**
+- Servidor HTTP base (geralmente para desenvolvimento) 
+- Mecanismo de banco de dados (ORM)
+- Template Engine
+- Request Dispacher
+- Autenticação
+- AJAX Toolkit
+
+**Non Full Stack** 
+
+Conhecidos como "application servers" onde você pode implementar os mecanismos "from scratch" ou usar algumas bibliotecas prontas.
+]
+---
+.left-column[
+  ## Web
+  ### Frameworks
+  ## Django
+]
+.right-column[
+O mote do .blue[Django] é "O framework para perfeicionista com prazo." 
+
+É o framework mais usado em pela sua agilidade no desenvolivmento e estabilidade. Foi o primeiro framework suportado pelo .blue[Google App Engine].
+
+A estrutura de um projeto em Django. 
+```
+project
+├── manage.py
+├── project
+│   ├── __init__.py
+│   ├── settings.py
+│   ├── urls.py
+│   └── wsgi.py
+└── aplication
+    ├── admin.py
+    ├── apps.py
+    ├── __init__.py
+    ├── migrations
+    │   └── __init__.py
+    ├── models.py
+    ├── tests.py
+    └── views.py
+```
+]
+---
+.left-column[
+  ## Web
+  ### Frameworks
+  ## Django
+  ### Models
+
+]
+.right-column[
+Exemplo de um arquivo de models.
+```
+class Band(models.Model):
+    """Classe de bandas."""
+    name = models.CharField(max_length=200)
+    can_rock = models.BooleanField(default=True)
+
+
+class Member(models.Model):
+    """Classe de membros."""
+    name = models.CharField("Nome do membro", max_length=200)
+    instrument = models.CharField(choices=(
+            ('g', "Guitarra"),
+            ('b', "Baixo"),
+            ('d', "Bateria"),
+            ('v', "Vocal"),
+        ),
+        max_length=1
+    )
+    band = models.ForeignKey("Band")
+```
+Handler de formulários
+```python
+from django import forms
+
+class FormularioDeContato(forms.Form):
+    subject = forms.CharField(max_length=100)
+    message = forms.CharField()
+    sender = forms.EmailField()
+    cc_myself = forms.BooleanField(required=False)
+      
+```
+]
+---
+.left-column[
+  ## Web
+  ### Frameworks
+  ## Flask
+]
+.right-column[
+Flask é um micro framework que vem ganhando bastante mercado, pricipalmente entre desenvolvedores mais experientes.
+
+O fato de não ter funcionalidases com camada de abstração de dados e validação de formularios embutidas o fazem uma boa escolha para APIs.
+
+Uma aplicação mínima em Flask
+```python
+from flask import Flask
+
+app = Flask(__name__)
+
+@app.route("/")
+def hello():
+    return "Hello World!"
+
+
+if __name__ == "__main__":
+    app.run()
+```
+]
+---
+.left-column[
+  ## Web
+  ### Frameworks
+  ## Tornado
+]
+.right-column[
+.blue[Tornado] é um framework wed e biblioteca de rede assincrona. 
+
+Usando I/O não blocante para conexões, Tronado escala milhares de conexões (10k conns) concorrentes. Muito usado para aplicações que usam **websockets**
+WebSockets, and other applications that require a long-lived connection to each user.
+
+Exemplo de web app.
+
+```python
+import tornado.ioloop
+import tornado.web
+
+class MainHandler(tornado.web.RequestHandler):
+    def get(self):
+        self.write("Hello, world")
+
+def make_app():
+    return tornado.web.Application([
+        (r"/", MainHandler),
+    ])
+
+if __name__ == "__main__":
+    app = make_app()
+    app.listen(8888)
+    tornado.ioloop.IOLoop.current().start()```
 ]
 ---
 References:
 Namespace and Scope:
 - http://sebastianraschka.com/Articles/2014_python_scope_and_namespaces.html
 - http://stackoverflow.com/questions/291978/short-description-of-python-scoping-rules
+
 Classes
 - https://docs.python.org/3/tutorial/classes.html
+
+MRO
+- http://stackoverflow.com/questions/2010692/what-does-mro-do-in-python
+- https://www.python.org/download/releases/2.3/mro/
+
 ---
 name: last-page
 template: inverse
