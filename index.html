@@ -865,7 +865,7 @@ def pessoa(nome, idade):
 ```
 Parametros nomeados podem ter valores padrão.
 ```python
-def soma(a, b=1):
+def multiplica(a, b=1):
     return a * b
 ```
 ]
@@ -978,8 +978,8 @@ class Ponto:
 O equivalente em Java
 ```java
 public class Ponto {
-    public int x = 0;
-    public int y = 0;
+    private int x = 0;
+    private int y = 0;
 
     //constructor
     public Ponto(int x, int y) {
@@ -1082,6 +1082,41 @@ class Calculadora():
 -10
 >>> calc - 30
 50
+```
+]
+---
+.left-column[
+  ## Classes
+  ## Atributos
+  ### Getters e Setters
+]
+.right-column[
+Encapsulamento em Python pode ser feito usando .blue[properties]. A partir delas pode-se definir getters e setter.
+
+```python
+class Pessoa:
+    def __init__(self, name):
+        self.name = name
+
+    @property
+    def name(self):
+        return self._name
+
+    @name.setter
+    def name(self, value):
+        if not isinstance(value, str):
+            raise TypeError('Nome deve ser string')
+        self._name = value
+
+>>> p = Person('Maria')
+>>> p.name
+'Maria'
+>>> p.name = 42
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "<stdin>", line 10, in name
+TypeError: Nome deve ser uma string
+
 ```
 ]
 ---
