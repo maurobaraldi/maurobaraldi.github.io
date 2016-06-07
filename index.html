@@ -133,7 +133,7 @@ class: center, middle, inverse
 #Python para Java Heroes
 Todos super-heróis são bem vindos :-)
 
-### Por Mauro Baraldi (@mbaraldi) e Henrique Gonzalez (@henriquesg)
+### Por Mauro Baraldi (@mbaraldi) e Henrique Gonzales (@henriquesg)
 
 .footnote[Slides created with [RemarkJS](https://github.com/gnab/remark)]
 ---
@@ -159,6 +159,9 @@ layout: false
 - Web
 
 ###.blue[Terceira Parte - Melhores Práticas]
+
+- Valores e Orientações Gerais
+- Google Python Style Guide
 ]
 ---
 template: inverse
@@ -463,7 +466,7 @@ template: inverse
   ### Expressões
 ]
 .right-column[
-As palavras .blue[and], .blue[or], .blue[not] fazem as vezes .blue[&&], .blue[||] e .blue[!], em Java e C.
+As palavras .blue[and], .blue[or], .blue[not] equivalem aos operadores .blue[&&], .blue[||] e .blue[!], em Java e C.
 
 Entretanto em Python .blue[==], compara por valor. Java compara numeros por valor e objetos por referência.
 
@@ -937,11 +940,11 @@ template: inverse
   ## Definição
 ]
 .right-column[
-O design de classes em Python é inspirado no design de classes em C++, que adiciona o mínimo necessário (sintaxe e semantica).
+O design de classes em Python é inspirado no design de classes em C++, que adiciona o mínimo necessário (sintaxe e semântica).
 
-Todas as funcionalidades base da programação orientada a objetos estão disponíveis. O mecanismo de herança permite multiplas classes base (herança multipla). Toda classe tem um ancestral comum que é .blue[object].
+Todas as funcionalidades base da programação orientada a objetos estão disponíveis. O mecanismo de herança permite múltiplas classes base (herança múltipla). Toda classe tem um ancestral comum que é .blue[object].
 
-Atribuição de referencia (atributos) e instanciação (metodos) são as operações suportadas pelas classes.
+Atribuição de referência (atributos) e instanciação (métodos) são as operações suportadas pelas classes.
 
 ```python
 class ClasseBase:
@@ -951,7 +954,7 @@ class ClasseBase:
     def function(self):
         return 'hello world'
 ```
-Desse modo .blue[ClasseBase.valor] e .blue[ClasseBase.function] são atributos de classe, sendo um objeto do tipo .blue[int] e um objetdo to tipo .blue[function].
+Desse modo .blue[ClasseBase.valor] e .blue[ClasseBase.function] são atributos de classe, sendo um objeto do tipo .blue[int] e um objeto do tipo .blue[function].
 ]
 ---
 .left-column[
@@ -964,8 +967,8 @@ Instanciamento de classes segue a mesma notação de funções.
 base = ClasseBase()
 ```
 
-O objeto class tem um metodo "especial" chamado .blue[__init__] que pode ser usado para definir artibutos iniciais para a classe.
- 
+O objeto class tem um método "especial" chamado .blue[__init__] que pode ser usado para definir atributos iniciais para a classe.
+
 ```python
 class Ponto:
     def __init__(self, x=0, y=0):
@@ -977,7 +980,7 @@ O equivalente em Java
 public class Ponto {
     public int x = 0;
     public int y = 0;
-        
+
     //constructor
     public Ponto(int x, int y) {
         this.x = x;
@@ -997,7 +1000,7 @@ template: inverse
   ## Herança
 ]
 .right-column[
-Em Python herança é usado a todo momento pois todos objetos têm como ancestral comum, a classe .blue[object].
+Em Python herança é usada a todo momento pois todos objetos têm como ancestral comum a classe .blue[object].
 ```python
 class BaseClass:
     def __init__(self, *args, **kwargs):
@@ -1008,7 +1011,7 @@ class DerivedClass(BaseClass):
         super(DerivedClass, self).__init__()
         if "name" in kwargs:
             self.name = kwargs['name']
-        
+
 >>> base = BaseClass()
 >>> print(base.name)
 'Classe Base'
@@ -1021,7 +1024,7 @@ class DerivedClass(BaseClass):
 >>> print(descendente.name)
 'Aha!'
 ```
-O .blue[super] do Python funciona de forma análoga ao do Java, mas você só precisa defini-lo uma vez, não precisando usa-lo para acessar os atributos da super classe.
+O .blue[super] do Python funciona de forma análoga ao do Java, mas você só precisa defini-lo uma vez, não precisando usá-lo para acessar os atributos da super classe.
 
 ]
 ---
@@ -1030,9 +1033,9 @@ O .blue[super] do Python funciona de forma análoga ao do Java, mas você só pr
   ## Herança Multipla
 ]
 .right-column[
-Como toda classe é conceitualmente uma instancia de .blue[object], então, herdar atributos uma classe seria herdar da classe, além de .blue[object].
+Como toda classe é conceitualmente uma instância de .blue[object], então, herdar atributos uma classe seria herdar da classe, além de .blue[object].
 
-Para evitar o problema mais comum em herança multipla, Python usa um algoritmo de linearização de busca que preserva a ordem de busca da esquerda para direita dos objetos.
+Para evitar o problema mais comum em herança múltipla, Python usa um algoritmo de linearização de busca que preserva a ordem de busca da esquerda para direita dos objetos.
 
 Esse mecanismo é chamado de Method Resolution Order ou .blue[MRO].
 ```python
@@ -1047,7 +1050,7 @@ Esse mecanismo é chamado de Method Resolution Order ou .blue[MRO].
 >>> class C(A): pass
 >>> class D(B, C): pass
 >>> D.__mro__
-(<class '__main__.D'>, <class '__main__.B'>, 
+(<class '__main__.D'>, <class '__main__.B'>,
 <class '__main__.C'>, <class '__main__.A'>, <class 'object'>)
 ```
 ]
@@ -1058,9 +1061,9 @@ Esse mecanismo é chamado de Method Resolution Order ou .blue[MRO].
   ### Privados
 ]
 .right-column[
-Não existem atributos privados em Python propriamente dito. Por isso há uma convenção de usar **_** para atributos privados, **__** usado para evitar substituição em caso de um attributo da super classe ter o mesmo nome, e **__**__methodname__**__** são metodos "especiais" que o Python usa.
+Não existem atributos privados em Python propriamente dito. Por isso há uma convenção de usar **_** para atributos privados, **__** usado para evitar substituição em caso de um atributo da super classe ter o mesmo nome, e **__**__methodname__**__** são metodos "especiais" que o Python usa.
 
-Sempre haverá um operador ou um metodo builtin chamando um metodo especial.
+Sempre haverá um operador ou um método built-in chamando um método especial.
 
 ```python
 class Calculadora():
@@ -1119,18 +1122,18 @@ template: inverse
   ## Unit Test
 ]
 .right-column[
-Python disponibilza mais de um método, bultin, de testar suas aplicações.
+Python disponibiliza mais de um método, bult-in, de testar suas aplicações.
 
-.blue[Doctest] é a bibioteca que realiza testes a partir de Docstrings. A documentação da classe ou metodo, com exemplos pode ser aprovaitada como asset para testes a partir da doctest.
+.blue[Doctest] é a biblioteca que realiza testes a partir de Docstrings. A documentação da classe ou método, com exemplos, pode ser aproveitada como asset para testes a partir da doctest.
 
 ```python
 def rq(n):
     """
     Calcula a raiz quadrada de de n:
-    
+
     >>> rq(2)
     4
-    
+
     >>> rq(10)
     100
     """
@@ -1173,7 +1176,7 @@ ok
 2 passed and 0 failed.
 Test passed.
 ```
-Entretanto, esse seria um test no nível do módulo. Para testar todos os módulos/classes do projeto, a biblioteca .blue[unittest] é a mais adequada.
+Entretanto, esse seria um teste a nível de módulo. Para testar todos os módulos/classes do projeto, a biblioteca .blue[unittest] é a mais adequada.
 ]
 ---
 .left-column[
@@ -1181,7 +1184,7 @@ Entretanto, esse seria um test no nível do módulo. Para testar todos os módul
   ## Unittest
 ]
 .right-column[
-A biblioteca unittest foin inspirada na JUnit e tem muitas características similares como, automação de testes, compartilhamento de contexto de setup e shutdown, agrupamento de testes por coleções e outros (.blue[XUnit architecture]).
+A biblioteca unittest foi inspirada na JUnit e tem muitas características similares como: automação de testes, compartilhamento de contexto de setup e shutdown, agrupamento de testes por coleções e outros (.blue[XUnit architecture]).
 
 ```python
 import unittest
@@ -1214,7 +1217,7 @@ if __name__ == '__main__':
 .right-column[
 A biblioteca de .blue[mock] é parte da stdlib! .blue[&#10084]
 
-Usando mock para interceptar a chamada do metodo de classe.
+Usando mock para interceptar a chamada do método de classe:
 
 **module.py**
 ```python
@@ -1247,7 +1250,7 @@ if __name__ == '__main__':
   ## Debug
 ]
 .right-column[
-A biblioteca padrão de debuging em Pyhton chama-se .blue[pdb] (Python Debugger) 
+A biblioteca padrão de debuging em Python chama-se .blue[pdb] (Python Debugger)
 
 As principais funcionalidades dele são
 
@@ -1268,19 +1271,19 @@ template: inverse
   ## Frameworks
 ]
 .right-column[
-Diferente de .blue[PHP] que foi concebida para ser uma linguagem para web e .blue[Java] que possue uma estrutura criar web apps com sua stack padrão, Python não foi desenhado para se uma linguagem para web apps.
+Diferente de .blue[PHP] que foi concebida para ser uma linguagem para web e .blue[Java] que possue uma estrutura que permite criar web apps com sua stack padrão, Python não foi desenhado para ser uma linguagem para web apps.
 
-Entretanto, com o tempo ela foi evoluindo e hoje conta com alguns frameworks que facilitam ainda mais esse ecosistema.
+Entretanto, com o tempo ela foi evoluindo e hoje conta com alguns frameworks que facilitam ainda mais esse ecossistema.
 
 **Full Stack**
-- Servidor HTTP base (geralmente para desenvolvimento) 
+- Servidor HTTP base (geralmente para desenvolvimento)
 - Mecanismo de banco de dados (ORM)
 - Template Engine
 - Request Dispacher
 - Autenticação
 - AJAX Toolkit
 
-**Non Full Stack** 
+**Non Full Stack**
 
 Conhecidos como "application servers" onde você pode implementar os mecanismos "from scratch" ou usar algumas bibliotecas prontas.
 ]
@@ -1291,11 +1294,11 @@ Conhecidos como "application servers" onde você pode implementar os mecanismos 
   ## Django
 ]
 .right-column[
-O mote do .blue[Django] é "O framework para perfeicionista com prazo." 
+O mote do .blue[Django] é "O framework para perfeccionista com prazo."
 
-É o framework mais usado em pela sua agilidade no desenvolivmento e estabilidade. Foi o primeiro framework suportado pelo .blue[Google App Engine].
+É o framework mais usado devido sua agilidade no desenvolivmento e estabilidade. Foi o primeiro framework suportado pelo .blue[Google App Engine].
 
-A estrutura de um projeto em Django. 
+A estrutura de um projeto em Django.
 ```
 project
 ├── manage.py
@@ -1354,7 +1357,7 @@ class FormularioDeContato(forms.Form):
     message = forms.CharField()
     sender = forms.EmailField()
     cc_myself = forms.BooleanField(required=False)
-      
+
 ```
 ]
 ---
@@ -1366,7 +1369,7 @@ class FormularioDeContato(forms.Form):
 .right-column[
 Flask é um micro framework que vem ganhando bastante mercado, pricipalmente entre desenvolvedores mais experientes.
 
-O fato de não ter funcionalidases com camada de abstração de dados e validação de formularios embutidas o fazem uma boa escolha para APIs.
+O fato de não ter funcionalidades com camada de abstração de dados e validação de formulários embutidas, o fazem uma boa escolha para APIs.
 
 Uma aplicação mínima em Flask
 ```python
@@ -1390,10 +1393,9 @@ if __name__ == "__main__":
   ## Tornado
 ]
 .right-column[
-.blue[Tornado] é um framework wed e biblioteca de rede assincrona. 
+.blue[Tornado] é um framework web e biblioteca de rede assíncrona.
 
-Usando I/O não blocante para conexões, Tronado escala milhares de conexões (10k conns) concorrentes. Muito usado para aplicações que usam **websockets**
-WebSockets, and other applications that require a long-lived connection to each user.
+Usando I/O não blocante para conexões, Tornado escala milhares de conexões (10k conns) concorrentes. Muito usado para aplicações que usam **websockets**.
 
 Exemplo de web app.
 
@@ -1416,7 +1418,331 @@ if __name__ == "__main__":
     tornado.ioloop.IOLoop.current().start()```
 ]
 ---
+template: inverse
+
+#Melhores Práticas em Python
+Uma lista do que fazer e não fazer.
+---
+layout: false
+.left-column[
+  ## Melhores Práticas
+  ## Geral
+]
+.right-column[
+###.blue[Valores]
+
+- _"Construa para os outros ferramentas que gostaria que fossem construídas para você."_ - __Kenneth Reitz__
+- _"Simplicidade é sempre melhor que funcionalidade."_ - __Pieter Hintjens__
+- _"Adeque para 90% dos casos de uso. Ignore quem fala 'nay'"_ - __Kenneth Reitz__
+
+###.blue[Orientações Gerais de Desenvolvimento]
+
+- _"Qualquer um pode consertar qualquer coisa."_ - __Khan Academy Development Docs__
+- Conserte cada 'janela quebrada' (design ruim, decisão errada) _assim que descoberta_.
+- Teste impiedosamente. Escreva documentação para novas funcionalidades.
+- Mais importante que Test-Driven Development - _Human-Driven Development_
+- Essas orientaçãos podem (provavelmente) irão mudar.
+]
+---
+.left-column[
+## Google
+## Guia de Estilo
+## Regras da Linguagem
+]
+.right-column[
+###.blue[Lint]
+- Use `pylint` em seu código. (Ex: Para o Atom, __linter-pylama__)
+
+###.blue[Imports]
+- Use `import x` para importar pacotes e módulos
+- Use `from x import y` onde `x` é o pacote e y o módulo.
+- Use `from x import y as z` se dois módulos são chamados `y` ou se `y` é inconvenientemente longo.
+
+Por exemplo, o módulo `sound.effects.echo` pode ser importado da seguinte maneira:
+```python
+from sound.effects import echo
+...
+echo.EchoFilter(input, output)
+```
+
+Não use imports relativos. Mesmo se o módulo está dentro do mesmo pacote, use o nome completo do pacote. Isso ajuda a não importar um pacote duas vezes sem querer.
+]
+---
+.left-column[
+  ## Google
+  ## Guia de Estilo
+  ## Regras da Linguagem
+]
+.right-column[
+###.blue[Exceptions]
+- Exceções são permitidas, mas devem ser usadas com cuidado.
+- Quando capturando uma exceção, use `as` no lugar de vírgula. Exemplo:
+
+```python
+try:
+    raise Error
+except Error as error:
+    pass
+```
+
+###.blue[Variáveis Globais]
+- Obviamente, evite.
+- Constantes a nível de módulo devem ser nomeadas usando _all caps_ e _ underscores_.
+
+```python
+PI_NUMBER = 3.14159
+```
+]
+---
+.left-column[
+  ## Google
+  ## Guia de Estilo
+  ## Regras da Linguagem
+]
+.right-column[
+###.blue[Classes e Funções Aninhadas/Locais/Internas]
+- São permitidas.
+- Uma classe pode ser definida dentro de um método, função ou classe. Uma função pode ser definida dentro de um método ou função.
+
+###.blue[List Comprehensions]
+- Okay em casos simples.
+- Expressão geradoras podem ser muito eficientes, uma vez que evitam a criação de uma lista.
+- List comprehensions ou expressões geradoras complicadas podem ser difíceis de ler:
+
+```python
+# NÃO FAZER
+result = [(x, y) for x in range(10)
+          for y in range(5) if x * y > 10]
+
+return ((x, y, z) for x in xrange(5) for y in xrange(5)
+        if x != y for z in xrange(5) if y != z)
+```
+]
+---
+.left-column[
+  ## Google
+  ## Guia de Estilo
+  ## Regras da Linguagem
+]
+.right-column[
+###.blue[Default Iterators e Operators]
+- Use os iterators e operators padrões para os tipos que dão suporte, como lists, dicts e files:
+
+```python
+#SIM
+for key in adict:
+if key not in adict:
+if obj in alist:
+for line in afile:
+
+#NÃO
+for key in adict.keys():
+if not adict.has_key(key):
+for line in afile.readlines():
+```
+
+###.blue[Generators]
+- Use conforme necessário.
+- Usa menos memória do que uma função que cria uma lista inteira de valores de uma só vez.
+]
+---
+.left-column[
+  ## Google
+  ## Guia de Estilo
+  ## Regras da Linguagem
+]
+.right-column[
+###.blue[Mas o que são Generators?]
+- Funções geradoras permitem declarar uma função que se comporta como um iterator, ou seja, podem ser usadas em um loop.
+
+```python
+def simple_generator_function():
+    yield 1
+    yield 2
+    yield 3
+
+
+for value in simple_generator_function():
+    print(value)
+>>> 1
+>>> 2
+>>> 3
+
+our_generator = simple_generator_function()
+next(our_generator)
+>>> 1
+next(our_generator)
+>>> 2
+next(our_generator)
+>>> 3
+```
+]
+---
+.left-column[
+  ## Google
+  ## Guia de Estilo
+  ## Regras da Linguagem
+]
+.right-column[
+###.blue[Funções Lambda]
+- Okay quando restritas a uma linha.
+- Se a função tiver de mais de 60 caracteres, é provavelmente melhor declarar a função normalmente.
+
+###.blue[Expressões Condicionais]
+- Okay quando restritas a uma linha.
+
+```python
+x = 1 if cond else 2
+```
+
+###.blue[Valor Padrão de Argumentos]
+- Okay na maioria dos casos.
+- Não use objetos mutáveis como valor padrão na definição do método ou função.
+
+```python
+# NÃO
+def foo(a, b=[])
+```
+]
+---
+.left-column[
+  ## Google
+  ## Guia de Estilo
+  ## Regras da Linguagem
+]
+.right-column[
+###.blue[Propriedades]
+- Use para acessar ou configurar dados onde normalmente você usaria métodos "lightweight" `set` ou `get`.
+- Propriedades que são `readonly` devem ser criadas com o decorator `@property`.
+]
+---
+.left-column[
+  ## Google
+  ## Guia de Estilo
+  ## Regras da Linguagem
+]
+.right-column[
+###.blue[Exemplo]
+
+```python
+import math
+
+ class Square(object):
+     def __init__(self, side):
+         self.side = side
+
+     def __get_area(self):
+         """Calculates the 'area' property."""
+         return self.side ** 2
+
+     def ___get_area(self):
+         """Indirect accessor for 'area' property."""
+         return self.__get_area()
+
+     def __set_area(self, area):
+         """Sets the 'area' property."""
+         self.side = math.sqrt(area)
+
+     def ___set_area(self, area):
+         """Indirect setter for 'area' property."""
+         self.__set_area(area)
+
+     area = property(___get_area, ___set_area,
+                     doc="""Gets or sets the area of the square.""")
+
+     @property
+     def perimeter(self):
+         return self.side * 4
+```
+]
+---
+.left-column[
+  ## Google
+  ## Guia de Estilo
+  ## Regras da Linguagem
+]
+.right-column[
+###.blue[Verdadeiro/Falso]
+- Use o falso "implícito" se possível.
+
+```python
+# SIM
+if not users:
+    print('no users')
+
+if foo == 0:
+    self.handle_zero()
+
+if i % 10 == 0:
+    self.handle_multiple_of_ten()
+
+# NÃO
+if len(users) == 0:
+    print('no users')
+
+if foo is not None and not foo:
+    self.handle_zero()
+
+if not i % 10:
+    self.handle_multiple_of_ten()
+```
+]
+---
+.left-column[
+  ## Google
+  ## Guia de Estilo
+  ## Regras da Linguagem
+]
+.right-column[
+###.blue[Lexical Scoping]
+- Okay, mas use com cuidado.
+
+```python
+# SIM
+def get_adder(summand1):
+    """Returns a function that adds numbers to a given number."""
+    def adder(summand2):
+        return summand1 + summand2
+
+    return adder
+
+# NÃO
+i = 4
+def foo(x):
+    def bar():
+        print i,
+    # ...
+    # A bunch of code here
+    # ...
+    for i in x:  # Ah, i *is* local to Foo, so this is what Bar sees
+        print i,
+    bar()
+
+foo([1, 2, 3])
+>>> 1 2 3 3
+```
+]
+---
+.left-column[
+  ## Google
+  ## Guia de Estilo
+  ## Regras da Linguagem
+]
+.right-column[
+###.blue[Decoradores de Função/Método]
+- Use criteriosamente, quando houver vantagem.
+
+###.blue[Threading]
+- Não confie na atomicidade de tipos built-in.
+- Use os módulos e pacotes específicos para isso.
+
+###.blue[Power Features]
+- Python é uma linguagem extremamente flexível e possui muitos recursos extravagantes, tais como metaclasses, herança dinâmica, acesso a bytecode, etc.
+- Evite tais recursos.
+]
+---
 References:
+##Referências
 Namespace and Scope:
 - http://sebastianraschka.com/Articles/2014_python_scope_and_namespaces.html
 - http://stackoverflow.com/questions/291978/short-description-of-python-scoping-rules
@@ -1428,6 +1754,12 @@ MRO
 - http://stackoverflow.com/questions/2010692/what-does-mro-do-in-python
 - https://www.python.org/download/releases/2.3/mro/
 
+Best Practices
+- https://gist.github.com/sloria/7001839
+- https://google.github.io/styleguide/pyguide.html
+- https://wiki.python.org/moin/Generators
+- https://jeffknupp.com/blog/2013/04/07/improve-your-python-yield-and-generators-explained/
+- https://www.toptal.com/python/top-10-mistakes-that-python-programmers-make
 ---
 name: last-page
 template: inverse
