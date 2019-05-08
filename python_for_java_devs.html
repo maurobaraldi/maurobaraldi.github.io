@@ -1,0 +1,1831 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="keywords" content="remark,remarkjs,markdown,slideshow,presentation" />
+    <meta name="description" content="A simple, in-browser, markdown-driven slideshow tool." />
+    <title>Python for Java Heroes</title>
+    <style>
+      @import url(https://fonts.googleapis.com/css?family=Droid+Serif);
+      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+
+      body {
+        font-family: 'Droid Serif';
+      }
+      h1, h2, h3 {
+        font-family: 'Yanone Kaffeesatz';
+        font-weight: 400;
+        margin-bottom: 0;
+      }
+      .remark-slide-content h1 { font-size: 3em; }
+      .remark-slide-content h2 { font-size: 2em; }
+      .remark-slide-content h3 { font-size: 1.6em; }
+      .footnote {
+        position: absolute;
+        bottom: 3em;
+      }
+      li p { line-height: 1.25em; }
+      .blue { color: #6687b1; }
+      .large { font-size: 2em; }
+      .medium-small {
+          font-size: .75em;
+          line-height: 90%;
+        }
+      .medium { font-size: .8em; }
+      a, a > code {
+        color: #6687b1;
+        text-decoration: none;
+      }
+      code {
+        background: #e7e8e2;
+        border-radius: 5px;
+      }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+      .remark-code-line-highlighted     { background-color: #373832; }
+      .pull-left {
+        float: left;
+        width: 47%;
+      }
+      .pull-right {
+        float: right;
+        width: 47%;
+      }
+      .pull-right ~ p {
+        clear: both;
+      }
+      #slideshow .slide .content code {
+        font-size: 0.8em;
+      }
+      #slideshow .slide .content pre code {
+        font-size: 0.9em;
+        padding: 15px;
+      }
+      .inverse {
+        background: #272822;
+        color: #777872;
+        text-shadow: 0 0 20px #333;
+      }
+      .inverse h1, .inverse h2 {
+        color: #f3f3f3;
+        line-height: 0.8em;
+      }
+
+      /* Slide-specific styling */
+      #slide-inverse .footnote {
+        bottom: 12px;
+        left: 20px;
+      }
+      #slide-how .slides {
+        font-size: 0.9em;
+        position: absolute;
+        top:  151px;
+        right: 140px;
+      }
+      #slide-how .slides h3 {
+        margin-top: 0.2em;
+      }
+      #slide-how .slides .first, #slide-how .slides .second {
+        padding: 1px 20px;
+        height: 90px;
+        width: 120px;
+        -moz-box-shadow: 0 0 10px #777;
+        -webkit-box-shadow: 0 0 10px #777;
+        box-shadow: 0 0 10px #777;
+      }
+      #slide-how .slides .first {
+        background: #fff;
+        position: absolute;
+        top: 20%;
+        left: 20%;
+        z-index: 1;
+      }
+      #slide-how .slides .second {
+        position: relative;
+        background: #fff;
+        z-index: 0;
+      }
+
+      /* Two-column layout */
+      .left-column {
+        color: #777;
+        width: 20%;
+        height: 92%;
+        float: left;
+      }
+        .left-column h2:last-of-type, .left-column h3:last-child {
+          color: #000;
+        }
+      .right-column {
+        width: 75%;
+        float: right;
+        padding-top: 1em;
+      }
+    </style>
+  </head>
+  <body>
+    <textarea id="source">
+name: inverse
+layout: true
+class: center, middle, inverse
+---
+#Python para Java Heroes
+Todos super-heróis são bem vindos :-)
+
+### Por Mauro Baraldi (@mbaraldi) e Henrique Gonzales (@henriquesg)
+
+.footnote[Slides created with [RemarkJS](https://github.com/gnab/remark)]
+---
+# Agenda
+---
+layout: false
+.left-column[
+  ## Agenda
+]
+.right-column[
+###.blue[Primeira Parte - Apresentação da linguagem]
+
+- História
+- Características e Sintaxe
+
+###.blue[Segunda Parte - Aspectos da linguagem]
+
+- Tipos
+- Escopo
+- Funções, Classes, Instâncias
+- Concorrência
+- Testes e Debugging
+- Web
+
+###.blue[Terceira Parte - Melhores Práticas]
+
+- Valores e Orientações Gerais
+- Google Python Style Guide
+]
+---
+template: inverse
+
+# Apresentação da Linguagem
+---
+.left-column[
+  ## Python
+  ## História
+]
+.right-column[
+.medium[Python é uma linguagem de programação de alto nível, interpretada, de script, orientada a objetos, funcional, de tipagem dinâmica e forte.]
+
+.medium[Foi lançada por Guido van Rossum em 1991.]
+
+.medium[Possui um modelo de desenvolvimento comunitário, aberto e gerenciado pela organização sem fins lucrativos Python Software Foundation.]
+
+.medium[Uma das grandes característiscas da linguagem é o suporte multiparadigma como orientado a objetos, imperativo, funcional e procedural.]
+
+.medium[Parte da cultura da linguagem gira ao redor de The Zen of Python, um poema que faz parte do documento "PEP 20 (The Zen of Python)", descrevendo sumariamente a filosofia do Python]
+
+]
+---
+.left-column[
+  ## Python
+  ## O Zen do Python?
+]
+.right-column[
+.medium-small[
+## O Zen do Python, por Tim Peters
+
+Bonito é melhor que feio.
+
+Explícito é melhor que implícito.
+
+Simples é melhor que complexo.
+
+Complexo é melhor que complicado.
+
+Linear é melhor do que aninhado.
+
+Esparso é melhor que denso.
+
+Legibilidade conta.
+
+Casos especiais não são especiais o bastante para quebrar as regras.
+
+Ainda que praticidade vença a pureza.
+
+Erros nunca devem passar silenciosamente.
+
+A menos que sejam explicitamente silenciados.
+
+Diante da ambigüidade, recuse a tentação de adivinhar.
+
+Deveria haver um — e preferencialmente só um — modo óbvio para fazer algo.
+
+Embora esse modo possa não ser óbvio a princípio a menos que você seja holandês.
+
+Agora é melhor que nunca.
+
+Embora nunca freqüentemente seja melhor que *já*.
+
+Se a implementação é difícil de explicar, é uma má idéia.
+
+Se a implementação é fácil de explicar, pode ser uma boa idéia.
+
+Namespaces são uma grande idéia — vamos ter mais dessas!]
+]
+---
+template: inverse
+
+# Aplicações
+---
+name: how
+
+.left-column[
+  ## Python
+  ## Aplicações
+]
+.right-column[
+
+- Internet: Globo.com, Bitly, Atlassian, Mozilla...
+
+- Computação Gráfica: Joust, Disney, ILM, AutoDesk...
+
+- Operações: Google, Rackspace, Ubuntu, Red Hat...
+
+- Enterprise: IBM, Oracle, ERP5, Plone...
+
+- Science: NASA, DARPA, CERN...
+
+### Empresas distribuindo Python em suas aplicações
+
+  - Microsoft
+
+  - Apple
+
+  - IBM
+]
+---
+template: inverse
+
+# Características
+---
+.left-column[
+  ## Python
+  ### Características
+]
+.right-column[
+Python é compilada para bytecode, e então executada pela VM, muito semelhante a Java.
+
+O compilador Python padrão é chamado de .blue[CPython]. Existem algumas variações de compiladores como .blue[Jython] (Java), .blue[Iron Python] (.Net), .blue[Pypy] (Python).
+
+Python usa espaços como delimitador de blocos em vez de chaves como em Java. A indentação do bloco indica a execução do bloco.
+
+```java
+public class HelloWorld {
+
+    public static void main(String[] args) {
+        System.out.println("Hello, World");
+    }
+
+}
+```
+
+```python
+class HelloWorld():
+
+    def __init__(self):
+        print("Hello World, I'm a Python class!'")
+```
+O .blue[self] no Python é o .blue[this] do Java!
+]
+---
+template: inverse
+
+# Controles de fluxo
+---
+.left-column[
+  ## Python
+  ### Características
+  ### Fluxos Básicos
+]
+.right-column[
+.blue[if, else, elif]
+
+```python
+class HelloWorld():
+
+    def __init__(self, city):
+        if city == 'São Paulo':
+            print("Welcome to CI&T São Paulo!")
+        elif city == 'Belo Horizonte':
+            print("Welcome to CI&T Belo Horizonte!")
+        else:
+            print("Welcome to CI&T Campinas!")
+```
+.blue[for]
+
+```python
+class HelloWorld():
+
+    def __init__(self, array):
+        for i in array:
+            print(i)
+```
+.blue[while]
+
+```python
+class HelloWorld():
+
+    def __init__(self, counter):
+        while counter < 10:
+            print(i)
+            counter += 1
+```
+]
+
+---
+.left-column[
+  ## Python
+  ### Características
+  ### Statements
+]
+.right-column[
+.blue[class]
+
+```python
+class Company():
+
+    name = "CI&T"
+    country = "Brasil"
+
+>>> comp = Company()
+>>> print(comp.name)
+CI&T
+>>> print(comp.country)
+Brasil
+```
+.blue[def] - metodos ou funções
+
+```python
+def calc(num1, num2):
+    return num1 + num2
+
+>>> calc(1, 1)
+2
+```
+.blue[pass] - NOP (Not operation)
+
+```python
+def calc(num):
+    if num < 2:
+        pass
+    else:
+        return num
+
+```
+]
+
+---
+.left-column[
+  ## Python
+  ### Características
+  ### Exceções
+]
+.right-column[
+Exceções em Python são tratadas similarmente como em Java, a keyword .blue[except] funciona como .blue[catch] no Java.
+
+```python
+def division():
+    try:
+        1/0
+    except ZeroDivisonError:
+        print("Erro divindo por zero.")
+```
+Multiplas exceções também funciona como em Java, adicionando a exceção que deseja interceptar.
+
+```python
+def division(a, b):
+    try:
+        return a/b
+    except ZeroDivisionError:
+        print("Erro divindo por zero.")
+    except TypeError:
+        print("O metodos aceita somente números")
+
+>>> division(1, 0)
+Erro divindo por zero.
+>>> division(2, 'a')
+O metodos aceita somente números
+>>>
+```
+]
+---
+.left-column[
+  ## Python
+  ### Características
+  ### Exceções
+]
+.right-column[
+Python também tem finally. :-)
+
+```python
+def division(a, b):
+    try:
+        return a/b
+    except ZeroDivisionError:
+        print("Erro divindo por zero.")
+    except TypeError:
+        print("O metodos aceita somente números")
+    finally:
+        print('Exiting try block.')
+
+>>> division(4,2)
+Exiting exception block.
+2.0
+```
+
+Para exceções personalizadas, basta criar uma classe extendendo a classe Exception. Igual em java :-)
+Entretanto em Python usa-se .blue[raise] para lançar (throw) uma exceção.
+
+```python
+class LessThanZeroException(Exception):
+    pass
+
+def division(a, b):
+    if a < 0:
+        raise LessThanZeroException("a é menor que zero.")
+```
+]
+---
+template: inverse
+
+# Expressões
+---
+
+.left-column[
+  ## Python
+  ### Características
+  ### Expressões
+]
+.right-column[
+As palavras .blue[and], .blue[or], .blue[not] equivalem aos operadores .blue[&&], .blue[||] e .blue[!], em Java e C.
+
+Entretanto em Python .blue[==], compara por valor. Java compara numeros por valor e objetos por referência.
+
+Python também faz comparação por referência. O operador é o .blue[is].
+
+```python
+def check(value):
+    if value is None:
+        return 'valor nulo'
+    else:
+        return 'outro valor'
+
+>>> check(None)
+valor nulo
+```
+
+Tudo em python são objetos, .blue[None] é um objeto do tipo .blue[NoneType]
+]
+---
+template: inverse
+
+# Aspectos da Linguagem
+---
+template: inverse
+
+# Tipos
+---
+.left-column[
+  ## Python
+  ### Tipos
+]
+.right-column[
+Como dito anteriormente, em Python tudo é objeto.
+
+Objetos são uma abstração para os dados. Todos os dados em Python são representados por objetos ou por algum tipo de relacionamento entre objetos.
+
+Todo objeto tem uma identidade, um tipo e um valor. A identidade de um objeto nunca muda. A identidade é o endereço desse obejto na memória. A identidade de cada objeto pode ser consultada pelo comando .blue[id].
+```python
+>>> numero = 10
+>>> id(numero)
+10437504
+```
+
+O tipo do objeto determina as operações que o objeto suporta, ex: inteiros tem comprimento, e também define os valores possíveis para o objeto. Para consultar o tipo do objeto use o comando .blue[type]
+
+```python
+>>> numero = 10
+>>> type(numero)
+int
+```
+]
+---
+.left-column[
+  ## Python
+  ### Tipos
+  ### Built-in Types
+]
+.right-column[
+Confira abaixo as listas de tipos de dados padrão, mutáveis e imutáveis.
+
+.pull-left[
+
+<pre>
+    Imutáveis
+
+    - int
+    - str
+    - float
+    - bool
+    - bytes
+    - tuple
+    - complex
+    - frozenset
+
+</pre>
+]
+.pull-right[
+
+<pre>
+    Mutáveis
+
+    - set
+    - list
+    - dict
+</pre>
+]
+]
+---
+.left-column[
+  ## Python
+  ### Tipos
+  ### Built-in Types
+]
+.right-column[
+.blue[int], .blue[float], .blue[complex]
+```python
+>>> inteiro = 1000
+>>> flutuante = 12.76
+>>> complexo = (3+8j)
+
+```
+.blue[bool]
+```python
+>>> ativo = True
+>>> fechado = False
+```
+.blue[str]
+```python
+>>> linguagem = "Java"
+>>> compania = "Oracle"
+```
+.blue[bytes]
+```python
+>>> linguagem = b"Some ASCII"
+>>> compania = bytes([119, 105, 107, 105])
+```
+]
+---
+template: inverse
+
+# Coleções de Dados
+### Tipos
+---
+.left-column[
+  ## Python
+  ### Tipos
+  ### Coleções
+]
+.right-column[
+Java possui algumas alternativas como a interface de .blue[Collections] para trabalhar com container de dados.
+Além do bom e velho array.
+
+Python chama tipos que se comportam como coleções de dados em geral de .blue[iterables] (iteráveis). Objetos iteráveis tem comportamentos similar ao de um array.
+
+Os tipos .blue[tuple] (tuplas) e .blue[list] (listas) são os tipos mais comumente usados. Lista são mutáveis e tuplas não.
+
+Alem das listas e tuplas outros tipos que são iteráveis são dicionários (.blue[dict]). Em outras linguagens dicts podem ser chamados de arrays associativos, conjuntos (.blue[set]) e strings!!
+
+Cada tipo tem atributos e métodos característicos, além do comportamento padrão de iteráveis: iterar por ele, tamanho do objeto, entre outros.
+
+]
+---
+.left-column[
+  ## Python
+  ### Tipos
+  ### Tuplas
+]
+.right-column[
+Tuplas - Container imutável de objetos
+```python
+>>> valores = (1, 2, 3, 4)
+>>> languages = ('Java', 'Python')
+>>> containers = ((1, 2, 3), (4, 5, 6))
+>>> mix = (1, 2, 3, (4, 5, 6), 'Python', 'Java')
+```
+Uma característica bem interessante na indexação, é que Python suporta indexação negativa
+
+```python
+>>> mix[0]
+1
+>>> mix[-1]
+'Java'
+>>> mix[-3]
+(4,5,6)
+```
+
+Fatiar (slicing) também é um comportamento padrão, o que torna o processo fácil e barato.
+```python
+>>> mix[2:5]
+3, (4, 5, 6), 'Python'
+```
+]
+---
+.left-column[
+  ## Python
+  ### Tipos
+  ### Listas
+]
+.right-column[
+Listas - Container mutável de objetos
+```python
+>>> valores = [1, 2, 3, 4]
+>>> languages = ['Java', 'Python']
+>>> containers = [(1, 2, 3), (4, 5, 6)]
+>>> mix = valores + languages + containers
+>>> mix
+(1, 2, 3, (4, 5, 6), 'Python', 'Java')
+```
+Listas têm todos os comportamentos de tuplas com a habilidade de ser mutável
+
+```python
+>>> mix.append('.Net')
+>>> mix
+[1, 2, 3, (4, 5, 6), 'Python', 'Java', '.Net']
+>>> mix.insert(-2, 'PHP')
+>>> mix
+[1, 2, 3, (4, 5, 6), 'PHP', 'Python', 'Java', '.Net']
+>>> mix.remove('Python')
+>>> mix
+[1, 2, 3, (4, 5, 6), 'PHP', 'Java', '.Net']
+```
+
+Fatiar (slicing) também é um comportamento padrão, oque torna o processo fácil e barato.
+```python
+>>> mix[2:5]
+3, (4, 5, 6), 'PHP'
+```
+]
+---
+.left-column[
+  ## Python
+  ### Tipos
+  ### Dicionários
+]
+.right-column[
+Diferente de sequências, dicionários são indexados por qualquer tipo imutável, enquanto listas e tuplas são indexados por números.
+```python
+>>> pessoa = {'nome': 'João', 'idade': 10}
+>>> pessoa['nome']
+'Joao'
+>>> pessoa['idade']
+10
+```
+É possivel recuperar somente as chaves ou os valores de um dicionário.
+```python
+>>> pessoa.keys()
+dict_keys(['idade', 'nome'])
+>>> pessoa.values()
+dict_values([10, 'João'])
+```
+Uma forma muito comum é usar uma lista de dicionários que representam entidades.
+```python
+>>> pessoas = [{'nome': 'João', 'idade': 10}, {'nome': 'Maria', 'idade': 15}]
+>>> pessoas[0]['nome']
+'Joao'
+>>> pessoas[1]['idade']
+15
+```
+]
+---
+template: inverse
+
+# Escopo e Namespace
+---
+.left-column[
+  ## Escopo e Namespace
+  ### Definições
+]
+.right-column[
+Python trata escopo de uma forma diferente de Java, mas seguindo uma padrão de geral de design de linguagens orientada a objetos.
+
+A grosso modo, namespaces são apenas recipientes para nomes de mapeamento a objetos.
+
+O "escopo" em Python define o "nível de hierarquia", no qual buscamos namespaces para certos mapeamentos "nome-a-objeto".
+
+Podemos imaginar um namespace como uma estrutura de dicionário Python, onde as chaves de dicionário representam os nomes e o dicionário valoriza o objeto em si (e esta é também a forma como namespaces são de fato implementados em Python)
+
+```python
+a_namespace = {'name_a':object_1, 'name_b':object_2, ...}
+```
+Por exemplo, toda vez que nós definirmos uma função, ela irá criar o seu próprio namespace. Namespaces também têm diferentes níveis de hierarquia.
+]
+---
+.left-column[
+  ## Escopo e Namespace
+  ### Namespace
+]
+.right-column[
+Há basicamente 2 namespaces, do .blue[modulo] e .blue[local]
+
+A grosso modo, namespaces são apenas recipientes para nomes de mapeamento a objetos.
+
+Objetos do namespace do modulo estarão disponiveis para o modulo.
+
+Objetos do namespace local só estão disponoveis dentro do escopo onde foram definidos.
+
+Para entender a hierarquia de namespaces siga a estrutura do LEGB
+
+**Local** -> **Enclosed** -> **Global** -> **Built-in**
+- **Local** refere-se a objetos dentro de classes, métodos ou funções.
+- **Enclosed** se uma função é acondicionada dentro de outra função.
+- **Global** objetos que estão disponíveis para todos os escopos.
+- **Built-in** nomes especiais que o Python reserva para uso próprio.
+]
+---
+.left-column[
+  ## Escopo e Namespace
+  ### Namespacing
+  ### Exemplo
+]
+.right-column[
+```python
+x = 100
+print("1. Global x:", x)
+
+
+class Test(object):
+    y = x
+    print("2. Enclosed y:", y)
+    x = x + 1
+    print("3. Enclosed x:", x)
+    z = x
+
+    def method(self):
+        print("4. Enclosed self.x", self.x)
+        print("5. Global x", x)
+        try:
+            print(y)
+        except NameError as e:
+            print("6.", e)
+
+    def method_local_ref(self):
+        try:
+            print(x)
+        except UnboundLocalError as e:
+            print("7.", e)
+        x = 200
+        print("8. Local x", x)
+```
+]
+---
+.left-column[
+  ## Escopo e Namespace
+  ### Namespacing
+  ### Exemplo
+]
+.right-column[
+```python
+1. Global x: 100
+2. Enclosed y: 100
+3. Enclosed x: 101
+>>> inst = Test()
+>>> inst.method()
+4. Enclosed self.x 101
+5. Global x 100
+6. global name 'y' is not defined
+>>> inst.method_local_ref()
+7. local variable 'x' referenced before assignment
+8. Local x 200
+```
+]
+---
+template: inverse
+
+# Funções
+---
+.left-column[
+  ## Funções
+]
+.right-column[
+Em Java o método mais comum de criar métodos assemelha-se ao exemplo a seguir.
+```java
+public static int soma(int a, int b) {
+    return a + b;
+}
+```
+
+Em Python as definiçoes de um método podem ser mais simplificadas.
+```python
+def soma(a, b):
+    return a + b
+```
+Em Python não é preciso definir o tipo de acesso (**public static**), o tipo de retorno do método (**int**) nem o tipo do argumento do método (**int a**)
+
+Existe uma funcionalidade chamada .blue[Function Annotations] que guarda metadados da função para ser recuperada e usada por IDEs.
+Entretanto as .blue[annotations] são opcionais.
+```python
+def soma(a: int, b: int) -> int:
+    return a + b
+```
+]
+---
+.left-column[
+  ## Funções
+  ### Argumentos
+]
+.right-column[
+Existem 3 modos de passar argumentos para funções.
+
+- Fixos
+- Arbitrários [listas ou dicionários]
+- Nomeados
+
+**Fixos**
+```python
+def soma(a, b):
+    return a + b
+
+>>> soma(1, 1)
+2
+```
+**Nomeados**
+```python
+def pessoa(nome, idade):
+    return {'nome': nome, 'idade': idade}
+```
+Parametros nomeados podem ter valores padrão.
+```python
+def multiplica(a, b=1):
+    return a * b
+```
+]
+---
+.left-column[
+  ## Funções
+  ### Argumentos
+  ### Arbitrarios
+]
+.right-column[
+Para definir argumentos arbitrários (quantidade indefinida) para funções, basta adicionar um ***** antes do argumento ou ****** para argumentos nomeados.
+Argumentos simples são interpretados pela função como uma tupla.
+```python
+def func(*args):
+    for arg in args:
+        print(arg)
+
+>>> func(1,'Python', [2,3,4])
+1
+Python
+[2, 3, 4]
+
+```
+Argumentos nomeados são interpretado como dicionários.
+```python
+def func(**kwargs):
+    print('Lista de argumentos nomeados', kwargs)
+    return {
+        'student': kwargs['nome'],
+        'age': kwargs['idade'],
+    }
+
+>>> func(nome='joão', idade= 3)
+Lista de argumentos nomeados {'nome': 'joão', 'idade': 3}
+{'age': 3, 'student': 'joão'}
+
+```
+]
+---
+.left-column[
+  ## Funções
+  ### Atributos e Metodos
+]
+.right-column[
+Funções têm atributos e métodos comuns a todas as funções. Uma forma de investigar quais atributos e métodos um objeto tem, é usando o comando .blue[dir]
+```python
+def func():
+    return True
+
+>>> dir(func)
+['__annotations__', '__call__', '__class__', '__closure__',
+'__code__', '__defaults__', '__delattr__', '__dict__',
+'__dir__', '__doc__', '__eq__', '__format__', '__ge__',
+'__get__', '__getattribute__', '__globals__', '__gt__',
+'__hash__', '__init__', '__kwdefaults__', '__le__',
+'__lt__', '__module__', '__name__', '__ne__', '__new__',
+'__qualname__', '__reduce__', '__reduce_ex__', '__repr__',
+'__setattr__', '__sizeof__', '__str__', '__subclasshook__']
+
+>>> print(func.__class__)
+<class 'function'>
+```
+]
+---
+template: inverse
+
+# Classes
+### Aspectos de Orientação a Objeto
+---
+.left-column[
+  ## Classes
+  ## Definição
+]
+.right-column[
+O design de classes em Python é inspirado no design de classes em C++, que adiciona o mínimo necessário (sintaxe e semântica).
+
+Todas as funcionalidades base da programação orientada a objetos estão disponíveis. O mecanismo de herança permite múltiplas classes base (herança múltipla). Toda classe tem um ancestral comum que é .blue[object].
+
+Atribuição de referência (atributos) e instanciação (métodos) são as operações suportadas pelas classes.
+
+```python
+class ClasseBase:
+    """Classe base de exemplo."""
+    valor = 12345
+
+    def function(self):
+        return 'hello world'
+```
+Desse modo .blue[ClasseBase.valor] e .blue[ClasseBase.function] são atributos de classe, sendo um objeto do tipo .blue[int] e um objeto do tipo .blue[function].
+]
+---
+.left-column[
+  ## Classes
+  ## Instâncias
+]
+.right-column[
+Instanciamento de classes segue a mesma notação de funções.
+```python
+base = ClasseBase()
+```
+
+O objeto class tem um método "especial" chamado .blue[__init__] que pode ser usado para definir atributos iniciais para a classe.
+
+```python
+class Ponto:
+    def __init__(self, x=0, y=0):
+        self.x = x
+        self.y = y
+```
+O equivalente em Java
+```java
+public class Ponto {
+    private int x = 0;
+    private int y = 0;
+
+    //constructor
+    public Ponto(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+}
+```
+]
+---
+template: inverse
+
+# Classes
+### Herança
+---
+.left-column[
+  ## Classes
+  ## Herança
+]
+.right-column[
+Em Python herança é usada a todo momento pois todos objetos têm como ancestral comum a classe .blue[object].
+```python
+class BaseClass:
+    def __init__(self, *args, **kwargs):
+        self.name = "Classe Base"
+
+class DerivedClass(BaseClass):
+    def __init__(self, *args, **kwargs):
+        super(DerivedClass, self).__init__()
+        if "name" in kwargs:
+            self.name = kwargs['name']
+
+>>> base = BaseClass()
+>>> print(base.name)
+'Classe Base'
+
+>>> derivada = DerivedClass()
+>>> print(derivada.name)
+'Classe Base'
+
+>>> descendente = DerivedClass(name='Aha!')
+>>> print(descendente.name)
+'Aha!'
+```
+O .blue[super] do Python funciona de forma análoga ao do Java, mas você só precisa defini-lo uma vez, não precisando usá-lo para acessar os atributos da super classe.
+
+]
+---
+.left-column[
+  ## Classes
+  ## Herança Multipla
+]
+.right-column[
+Como toda classe é conceitualmente uma instância de .blue[object], então, herdar atributos uma classe seria herdar da classe, além de .blue[object].
+
+Para evitar o problema mais comum em herança múltipla, Python usa um algoritmo de linearização de busca que preserva a ordem de busca da esquerda para direita dos objetos.
+
+Esse mecanismo é chamado de Method Resolution Order ou .blue[MRO].
+```python
+>>> class A(): pass
+>>> A.__mro__
+(<class '__main__.A'>, <type 'object'>)
+
+>>> class B(A): pass
+>>> B.__mro__
+(<class '__main__.B'>, <class '__main__.A'>, <type 'object'>)
+
+>>> class C(A): pass
+>>> class D(B, C): pass
+>>> D.__mro__
+(<class '__main__.D'>, <class '__main__.B'>,
+<class '__main__.C'>, <class '__main__.A'>, <class 'object'>)
+```
+]
+---
+.left-column[
+  ## Classes
+  ## Atributos
+  ### Privados
+]
+.right-column[
+Não existem atributos privados em Python propriamente dito. Por isso há uma convenção de usar **_** para atributos privados, **__** usado para evitar substituição em caso de um atributo da super classe ter o mesmo nome, e **__**__methodname__**__** são metodos "especiais" que o Python usa.
+
+Sempre haverá um operador ou um método built-in chamando um método especial.
+
+```python
+class Calculadora():
+
+    def __init__(self, numero):
+        self.numero = numero
+
+    def __add__(self, numero):
+        return self.numero - numero
+
+    def __sub__(self, numero):
+        return self.numero + numero
+
+>>> calc = Calculadora(20)
+>>> calc + 30
+-10
+>>> calc - 30
+50
+```
+]
+---
+.left-column[
+  ## Classes
+  ## Atributos
+  ### Getters e Setters
+]
+.right-column[
+Encapsulamento em Python pode ser feito usando .blue[properties]. A partir delas pode-se definir getters e setter.
+
+```python
+class Pessoa:
+    def __init__(self, name):
+        self.name = name
+
+    @property
+    def name(self):
+        return self._name
+
+    @name.setter
+    def name(self, value):
+        if not isinstance(value, str):
+            raise TypeError('Nome deve ser string')
+        self._name = value
+
+>>> p = Person('Maria')
+>>> p.name
+'Maria'
+>>> p.name = 42
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "<stdin>", line 10, in name
+TypeError: Nome deve ser uma string
+
+```
+]
+---
+template: inverse
+
+# Concorrência
+---
+.left-column[
+  ## Concorrência
+  ## Bibliotecas
+]
+.right-column[
+## <center>std lib</center>
+
+- Threads - .blue[threading]
+- Processos - .blue[multiprocessing]
+- Concorrência - .blue[concurrent.futures]
+- Programação Assincrona - .blue[asyncio]
+  - Coroutines - Multitasking não preenptivo
+- Socket Assincrono - .blue[asyncore]
+- Sinais - .blue[signal]
+
+## <center>3rd party libs</center>
+
+- [Eventlet](http://eventlet.net/) - Concurrencia em nível de rede
+- [Gevent](http://www.gevent.org/) - Corotinas em nível de rede
+- [Twisted](http://twistedmatrix.com/trac/) - Networking lib orientado a evento.
+
+Leitura recomendada: **Generators** e **Global Interpreter Lock** (GIL)
+]
+---
+template: inverse
+
+# Testes e Debuging
+---
+.left-column[
+  ## Testes e Debuging
+  ## Unit Test
+]
+.right-column[
+Python disponibiliza mais de um método, bult-in, de testar suas aplicações.
+
+.blue[Doctest] é a biblioteca que realiza testes a partir de Docstrings. A documentação da classe ou método, com exemplos, pode ser aproveitada como asset para testes a partir da doctest.
+
+```python
+def rq(n):
+    """
+    Calcula a raiz quadrada de de n:
+
+    >>> rq(2)
+    4
+
+    >>> rq(10)
+    100
+    """
+    return n * n
+
+if __name__ == '__main__':
+    import doctest
+    doctest.testmod()
+```
+Para testa basta executar
+```bash
+python raiz.py
+```
+]
+---
+.left-column[
+  ## Testes e Debuging
+  ## Docstest
+]
+.right-column[
+Para obter um relatório dos testes, adiciona a opção **-v** (verbose).
+
+```bash
+$ python raiz.py -v
+Trying:
+    rq(2)
+Expecting:
+    4
+ok
+Trying:
+    rq(10)
+Expecting:
+    100
+ok
+1 items had no tests:
+    __main__
+1 items passed all tests:
+   2 tests in __main__.rq
+2 tests in 2 items.
+2 passed and 0 failed.
+Test passed.
+```
+Entretanto, esse seria um teste a nível de módulo. Para testar todos os módulos/classes do projeto, a biblioteca .blue[unittest] é a mais adequada.
+]
+---
+.left-column[
+  ## Testes e Debuging
+  ## Unittest
+]
+.right-column[
+A biblioteca unittest foi inspirada na JUnit e tem muitas características similares como: automação de testes, compartilhamento de contexto de setup e shutdown, agrupamento de testes por coleções e outros (.blue[XUnit architecture]).
+
+```python
+import unittest
+
+class TestStringMethods(unittest.TestCase):
+
+    def test_upper(self):
+        self.assertEqual('java'.upper(), 'JAVA')
+
+    def test_isupper(self):
+        self.assertTrue('JAVA'.isupper())
+        self.assertFalse('Java'.isupper())
+
+    def test_split(self):
+        s = 'Java e Python'
+        self.assertEqual(s.split(), ['Java', 'e', 'Python'])
+        # Separador do split não é uma string.
+        with self.assertRaises(TypeError):
+            s.split(2)
+
+if __name__ == '__main__':
+    unittest.main()
+```
+]
+---
+.left-column[
+  ## Testes e Debuging
+  ## Mock
+]
+.right-column[
+A biblioteca de .blue[mock] é parte da stdlib! .blue[&#10084]
+
+Usando mock para interceptar a chamada do método de classe:
+
+**module.py**
+```python
+class HelloClass:
+    def hello_method():
+        return "Hello world"
+```
+
+**test_module.py**
+```python
+import unittest
+from unittest import mock
+
+
+class TestHelloClass(unittest.TestCase):
+
+    @mock.patch.object(HelloClass, 'hello_method')
+    def test_get_ip_should_succeed(self, mock_hello):
+        mock_hello.return_value="Quack"
+        hello = HelloClass()
+        self.assertEqual(hello.hello_method(), "Quack")
+
+if __name__ == '__main__':
+    unittest.main()
+```
+]
+---
+.left-column[
+  ## Testes e Debuging
+  ## Debug
+]
+.right-column[
+A biblioteca padrão de debuging em Python chama-se .blue[pdb] (Python Debugger)
+
+As principais funcionalidades dele são
+
+- Breakpoints (condicionais)
+- Navegação pelo código
+- Inspeção da stack
+- Listar a posição atual em relação a execução
+- Executar código Python no shell interativo
+
+]
+---
+template: inverse
+
+# Web
+---
+.left-column[
+  ## Web
+  ## Frameworks
+]
+.right-column[
+Diferente de .blue[PHP] que foi concebida para ser uma linguagem para web e .blue[Java] que possue uma estrutura que permite criar web apps com sua stack padrão, Python não foi desenhado para ser uma linguagem para web apps.
+
+Entretanto, com o tempo ela foi evoluindo e hoje conta com alguns frameworks que facilitam ainda mais esse ecossistema.
+
+**Full Stack**
+- Servidor HTTP base (geralmente para desenvolvimento)
+- Mecanismo de banco de dados (ORM)
+- Template Engine
+- Request Dispacher
+- Autenticação
+- AJAX Toolkit
+
+**Non Full Stack**
+
+Conhecidos como "application servers" onde você pode implementar os mecanismos "from scratch" ou usar algumas bibliotecas prontas.
+]
+---
+.left-column[
+  ## Web
+  ### Frameworks
+  ## Django
+]
+.right-column[
+O mote do .blue[Django] é "O framework para perfeccionista com prazo."
+
+É o framework mais usado devido sua agilidade no desenvolivmento e estabilidade. Foi o primeiro framework suportado pelo .blue[Google App Engine].
+
+A estrutura de um projeto em Django.
+```
+project
+├── manage.py
+├── project
+│   ├── __init__.py
+│   ├── settings.py
+│   ├── urls.py
+│   └── wsgi.py
+└── aplication
+    ├── admin.py
+    ├── apps.py
+    ├── __init__.py
+    ├── migrations
+    │   └── __init__.py
+    ├── models.py
+    ├── tests.py
+    └── views.py
+```
+]
+---
+.left-column[
+  ## Web
+  ### Frameworks
+  ## Django
+  ### Models
+
+]
+.right-column[
+Exemplo de um arquivo de models.
+```
+class Band(models.Model):
+    """Classe de bandas."""
+    name = models.CharField(max_length=200)
+    can_rock = models.BooleanField(default=True)
+
+
+class Member(models.Model):
+    """Classe de membros."""
+    name = models.CharField("Nome do membro", max_length=200)
+    instrument = models.CharField(choices=(
+            ('g', "Guitarra"),
+            ('b', "Baixo"),
+            ('d', "Bateria"),
+            ('v', "Vocal"),
+        ),
+        max_length=1
+    )
+    band = models.ForeignKey("Band")
+```
+Handler de formulários
+```python
+from django import forms
+
+class FormularioDeContato(forms.Form):
+    subject = forms.CharField(max_length=100)
+    message = forms.CharField()
+    sender = forms.EmailField()
+    cc_myself = forms.BooleanField(required=False)
+
+```
+]
+---
+.left-column[
+  ## Web
+  ### Frameworks
+  ## Flask
+]
+.right-column[
+Flask é um micro framework que vem ganhando bastante mercado, pricipalmente entre desenvolvedores mais experientes.
+
+O fato de não ter funcionalidades com camada de abstração de dados e validação de formulários embutidas, o fazem uma boa escolha para APIs.
+
+Uma aplicação mínima em Flask
+```python
+from flask import Flask
+
+app = Flask(__name__)
+
+@app.route("/")
+def hello():
+    return "Hello World!"
+
+
+if __name__ == "__main__":
+    app.run()
+```
+]
+---
+.left-column[
+  ## Web
+  ### Frameworks
+  ## Tornado
+]
+.right-column[
+.blue[Tornado] é um framework web e biblioteca de rede assíncrona.
+
+Usando I/O não blocante para conexões, Tornado escala milhares de conexões (10k conns) concorrentes. Muito usado para aplicações que usam **websockets**.
+
+Exemplo de web app.
+
+```python
+import tornado.ioloop
+import tornado.web
+
+class MainHandler(tornado.web.RequestHandler):
+    def get(self):
+        self.write("Hello, world")
+
+def make_app():
+    return tornado.web.Application([
+        (r"/", MainHandler),
+    ])
+
+if __name__ == "__main__":
+    app = make_app()
+    app.listen(8888)
+    tornado.ioloop.IOLoop.current().start()```
+]
+---
+template: inverse
+
+#Melhores Práticas em Python
+Uma lista do que fazer e não fazer.
+---
+layout: false
+.left-column[
+  ## Melhores Práticas
+  ## Geral
+]
+.right-column[
+###.blue[Valores]
+
+- _"Construa para os outros ferramentas que gostaria que fossem construídas para você."_ - __Kenneth Reitz__
+- _"Simplicidade é sempre melhor que funcionalidade."_ - __Pieter Hintjens__
+- _"Adeque para 90% dos casos de uso. Ignore quem fala 'nay'"_ - __Kenneth Reitz__
+
+###.blue[Orientações Gerais de Desenvolvimento]
+
+- _"Qualquer um pode consertar qualquer coisa."_ - __Khan Academy Development Docs__
+- Conserte cada 'janela quebrada' (design ruim, decisão errada) _assim que descoberta_.
+- Teste impiedosamente. Escreva documentação para novas funcionalidades.
+- Mais importante que Test-Driven Development - _Human-Driven Development_
+- Essas orientaçãos podem (provavelmente) irão mudar.
+]
+---
+.left-column[
+## Google
+## Guia de Estilo
+## Regras da Linguagem
+]
+.right-column[
+###.blue[Lint]
+- Use `pylint` em seu código. (Ex: Para o Atom, __linter-pylama__)
+
+###.blue[Imports]
+- Use `import x` para importar pacotes e módulos
+- Use `from x import y` onde `x` é o pacote e y o módulo.
+- Use `from x import y as z` se dois módulos são chamados `y` ou se `y` é inconvenientemente longo.
+
+Por exemplo, o módulo `sound.effects.echo` pode ser importado da seguinte maneira:
+```python
+from sound.effects import echo
+...
+echo.EchoFilter(input, output)
+```
+
+Não use imports relativos. Mesmo se o módulo está dentro do mesmo pacote, use o nome completo do pacote. Isso ajuda a não importar um pacote duas vezes sem querer.
+]
+---
+.left-column[
+  ## Google
+  ## Guia de Estilo
+  ## Regras da Linguagem
+]
+.right-column[
+###.blue[Exceptions]
+- Exceções são permitidas, mas devem ser usadas com cuidado.
+- Quando capturando uma exceção, use `as` no lugar de vírgula. Exemplo:
+
+```python
+try:
+    raise Error
+except Error as error:
+    pass
+```
+
+###.blue[Variáveis Globais]
+- Obviamente, evite.
+- Constantes a nível de módulo devem ser nomeadas usando _all caps_ e _ underscores_.
+
+```python
+PI_NUMBER = 3.14159
+```
+]
+---
+.left-column[
+  ## Google
+  ## Guia de Estilo
+  ## Regras da Linguagem
+]
+.right-column[
+###.blue[Classes e Funções Aninhadas/Locais/Internas]
+- São permitidas.
+- Uma classe pode ser definida dentro de um método, função ou classe. Uma função pode ser definida dentro de um método ou função.
+
+###.blue[List Comprehensions]
+- Okay em casos simples.
+- Expressão geradoras podem ser muito eficientes, uma vez que evitam a criação de uma lista.
+- List comprehensions ou expressões geradoras complicadas podem ser difíceis de ler:
+
+```python
+# NÃO FAZER
+result = [(x, y) for x in range(10)
+          for y in range(5) if x * y > 10]
+
+return ((x, y, z) for x in xrange(5) for y in xrange(5)
+        if x != y for z in xrange(5) if y != z)
+```
+]
+---
+.left-column[
+  ## Google
+  ## Guia de Estilo
+  ## Regras da Linguagem
+]
+.right-column[
+###.blue[Default Iterators e Operators]
+- Use os iterators e operators padrões para os tipos que dão suporte, como lists, dicts e files:
+
+```python
+#SIM
+for key in adict:
+if key not in adict:
+if obj in alist:
+for line in afile:
+
+#NÃO
+for key in adict.keys():
+if not adict.has_key(key):
+for line in afile.readlines():
+```
+
+###.blue[Generators]
+- Use conforme necessário.
+- Usa menos memória do que uma função que cria uma lista inteira de valores de uma só vez.
+]
+---
+.left-column[
+  ## Google
+  ## Guia de Estilo
+  ## Regras da Linguagem
+]
+.right-column[
+###.blue[Mas o que são Generators?]
+- Funções geradoras permitem declarar uma função que se comporta como um iterator, ou seja, podem ser usadas em um loop.
+
+```python
+def simple_generator_function():
+    yield 1
+    yield 2
+    yield 3
+
+
+for value in simple_generator_function():
+    print(value)
+>>> 1
+>>> 2
+>>> 3
+
+our_generator = simple_generator_function()
+next(our_generator)
+>>> 1
+next(our_generator)
+>>> 2
+next(our_generator)
+>>> 3
+```
+]
+---
+.left-column[
+  ## Google
+  ## Guia de Estilo
+  ## Regras da Linguagem
+]
+.right-column[
+###.blue[Funções Lambda]
+- Okay quando restritas a uma linha.
+- Se a função tiver de mais de 60 caracteres, é provavelmente melhor declarar a função normalmente.
+
+###.blue[Expressões Condicionais]
+- Okay quando restritas a uma linha.
+
+```python
+x = 1 if cond else 2
+```
+
+###.blue[Valor Padrão de Argumentos]
+- Okay na maioria dos casos.
+- Não use objetos mutáveis como valor padrão na definição do método ou função.
+
+```python
+# NÃO
+def foo(a, b=[])
+```
+]
+---
+.left-column[
+  ## Google
+  ## Guia de Estilo
+  ## Regras da Linguagem
+]
+.right-column[
+###.blue[Propriedades]
+- Use para acessar ou configurar dados onde normalmente você usaria métodos "lightweight" `set` ou `get`.
+- Propriedades que são `readonly` devem ser criadas com o decorator `@property`.
+]
+---
+.left-column[
+  ## Google
+  ## Guia de Estilo
+  ## Regras da Linguagem
+]
+.right-column[
+###.blue[Exemplo]
+
+```python
+import math
+
+ class Square(object):
+     def __init__(self, side):
+         self.side = side
+
+     def __get_area(self):
+         """Calculates the 'area' property."""
+         return self.side ** 2
+
+     def ___get_area(self):
+         """Indirect accessor for 'area' property."""
+         return self.__get_area()
+
+     def __set_area(self, area):
+         """Sets the 'area' property."""
+         self.side = math.sqrt(area)
+
+     def ___set_area(self, area):
+         """Indirect setter for 'area' property."""
+         self.__set_area(area)
+
+     area = property(___get_area, ___set_area,
+                     doc="""Gets or sets the area of the square.""")
+
+     @property
+     def perimeter(self):
+         return self.side * 4
+```
+]
+---
+.left-column[
+  ## Google
+  ## Guia de Estilo
+  ## Regras da Linguagem
+]
+.right-column[
+###.blue[Verdadeiro/Falso]
+- Use o falso "implícito" se possível.
+
+```python
+# SIM
+if not users:
+    print('no users')
+
+if foo == 0:
+    self.handle_zero()
+
+if i % 10 == 0:
+    self.handle_multiple_of_ten()
+
+# NÃO
+if len(users) == 0:
+    print('no users')
+
+if foo is not None and not foo:
+    self.handle_zero()
+
+if not i % 10:
+    self.handle_multiple_of_ten()
+```
+]
+---
+.left-column[
+  ## Google
+  ## Guia de Estilo
+  ## Regras da Linguagem
+]
+.right-column[
+###.blue[Lexical Scoping]
+- Okay, mas use com cuidado.
+
+```python
+# SIM
+def get_adder(summand1):
+    """Returns a function that adds numbers to a given number."""
+    def adder(summand2):
+        return summand1 + summand2
+
+    return adder
+
+# NÃO
+i = 4
+def foo(x):
+    def bar():
+        print i,
+    # ...
+    # A bunch of code here
+    # ...
+    for i in x:  # Ah, i *is* local to Foo, so this is what Bar sees
+        print i,
+    bar()
+
+foo([1, 2, 3])
+>>> 1 2 3 3
+```
+]
+---
+.left-column[
+  ## Google
+  ## Guia de Estilo
+  ## Regras da Linguagem
+]
+.right-column[
+###.blue[Decoradores de Função/Método]
+- Use criteriosamente, quando houver vantagem.
+
+###.blue[Threading]
+- Não confie na atomicidade de tipos built-in.
+- Use os módulos e pacotes específicos para isso.
+
+###.blue[Power Features]
+- Python é uma linguagem extremamente flexível e possui muitos recursos extravagantes, tais como metaclasses, herança dinâmica, acesso a bytecode, etc.
+- Evite tais recursos.
+]
+---
+References:
+##Referências
+Namespace and Scope:
+- http://sebastianraschka.com/Articles/2014_python_scope_and_namespaces.html
+- http://stackoverflow.com/questions/291978/short-description-of-python-scoping-rules
+
+Classes
+- https://docs.python.org/3/tutorial/classes.html
+
+MRO
+- http://stackoverflow.com/questions/2010692/what-does-mro-do-in-python
+- https://www.python.org/download/releases/2.3/mro/
+
+Best Practices
+- https://gist.github.com/sloria/7001839
+- https://google.github.io/styleguide/pyguide.html
+- https://wiki.python.org/moin/Generators
+- https://jeffknupp.com/blog/2013/04/07/improve-your-python-yield-and-generators-explained/
+- https://www.toptal.com/python/top-10-mistakes-that-python-programmers-make
+---
+name: last-page
+template: inverse
+
+## That's all folks (for now)!
+
+Slideshow created using [remark](http://github.com/gnab/remark).
+    </textarea>
+    <script src="remark-latest.min.js"></script>
+    <script>
+      var hljs = remark.highlighter.engine;
+    </script>
+    <script src="remark.language.js"></script>
+    <script>
+      var slideshow = remark.create({
+          highlightStyle: 'monokai',
+          highlightLanguage: 'remark',
+          highlightLines: true
+        }) ;
+    </script>
+    <script>
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-44561333-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script');
+        ga.src = 'https://ssl.google-analytics.com/ga.js';
+        var s = document.scripts[0];
+        s.parentNode.insertBefore(ga, s);
+      }());
+    </script>
+  </body>
+</html>
