@@ -1,140 +1,466 @@
-
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="HandheldFriendly" content="True" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="robots" content="" />
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="keywords" content="remark,remarkjs,markdown,slideshow,presentation" />
+    <meta name="description" content="A simple, in-browser, markdown-driven slideshow tool." />
+    <title>Software Testing</title>
+    <style>
+      @import url(https://fonts.googleapis.com/css?family=Droid+Serif);
+      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
 
-  <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro|Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+      body {
+        font-family: 'Droid Serif';
+      }
+      h1, h2, h3 {
+        font-family: 'Yanone Kaffeesatz';
+        font-weight: 400;
+        margin-bottom: 0;
+      }
+      .remark-slide-content h1 { font-size: 3em; }
+      .remark-slide-content h2 { font-size: 2em; }
+      .remark-slide-content h3 { font-size: 1.6em; }
+      .footnote {
+        position: absolute;
+        bottom: 3em;
+      }
+      li p { line-height: 1.25em; }
+      .red { color: #fa0000; }
+      .large { font-size: 2em; }
+      a, a > code {
+        color: rgb(249, 38, 114);
+        text-decoration: none;
+      }
+      code {
+        background: #e7e8e2;
+        border-radius: 5px;
+      }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+      .remark-code-line-highlighted     { background-color: #373832; }
+      .pull-left {
+        float: left;
+        width: 47%;
+      }
+      .pull-right {
+        float: right;
+        width: 47%;
+      }
+      .pull-right ~ p {
+        clear: both;
+      }
+      #slideshow .slide .content code {
+        font-size: 0.8em;
+      }
+      #slideshow .slide .content pre code {
+        font-size: 0.9em;
+        padding: 15px;
+      }
+      .inverse {
+        background: #272822;
+        color: #777872;
+        text-shadow: 0 0 20px #333;
+      }
+      .inverse h1, .inverse h2 {
+        color: #f3f3f3;
+        line-height: 0.8em;
+      }
 
-    <link rel="stylesheet" type="text/css" href="/theme/stylesheet/style.min.css">
+      /* Slide-specific styling */
+      #slide-inverse .footnote {
+        bottom: 12px;
+        left: 20px;
+      }
+      #slide-how .slides {
+        font-size: 0.9em;
+        position: absolute;
+        top:  151px;
+        right: 140px;
+      }
+      #slide-how .slides h3 {
+        margin-top: 0.2em;
+      }
+      #slide-how .slides .first, #slide-how .slides .second {
+        padding: 1px 20px;
+        height: 90px;
+        width: 120px;
+        -moz-box-shadow: 0 0 10px #777;
+        -webkit-box-shadow: 0 0 10px #777;
+        box-shadow: 0 0 10px #777;
+      }
+      #slide-how .slides .first {
+        background: #fff;
+        position: absolute;
+        top: 20%;
+        left: 20%;
+        z-index: 1;
+      }
+      #slide-how .slides .second {
+        position: relative;
+        background: #fff;
+        z-index: 0;
+      }
 
-  <link rel="stylesheet" type="text/css" href="/theme/pygments/github.min.css">
-  <link rel="stylesheet" type="text/css" href="/theme/font-awesome/css/fontawesome.css">
-  <link rel="stylesheet" type="text/css" href="/theme/font-awesome/css/brands.css">
-  <link rel="stylesheet" type="text/css" href="/theme/font-awesome/css/solid.css">
+      /* Two-column layout */
+      .left-column {
+        color: #777;
+        width: 20%;
+        height: 92%;
+        float: left;
+      }
+        .left-column h2:last-of-type, .left-column h3:last-child {
+          color: #000;
+        }
+      .right-column {
+        width: 75%;
+        float: right;
+        padding-top: 1em;
+      }
+    </style>
+  </head>
+  <body>
+    <textarea id="source">
+name: inverse
+layout: true
+class: center, middle, inverse
+---
+# Software Testing
+
+Por Mauro Baraldi
+.footnote[Esses slides estão disponíveis no [gist](https://gist.github.com/maurobaraldi/389e4c937c7d04ed85fe66ce3417e584)]
+---
+# Tópicos
+---
+layout: false
+.left-column[
+### Tópicos
+]
+.right-column[
+- Introdução
+
+- Níveis de Testes
+
+- Técnicas
+
+- Importancia dos Testes
+
+- Estratégia e Ferramentas
+
+- Perguntas
+]
+---
+template: inverse
+
+# Introdução
+---
+layout: false
+.left-column[
+  ## Introdução
+]
+.right-column[
+#<center>"Testes é o processo de executar um programa com a intenção de encontrar errors."</center>
+
+Glenford Myers, Cientista da Computação, autor de varios livros como [The Art of Software Testing](https://www.amazon.com.br/Art-Software-Testing-Glenford-Myers/dp/1118031962)
+]
+---
+layout: false
+.left-column[
+  ## Introdução
+]
+.right-column[
+#<center>"Testes mostram a presença de bugs mas nunca a ausência deles."</center>
+
+Edsger Wybe Dijkstra, Cientista da Computação mais conhecido por ser criador do algoritmo de Dijkstra
+]
+---
+layout: false
+.left-column[
+  ## Introdução
+]
+.right-column[
+###<center>Teste de software é uma investigação conduzida para prover aos stakeholders informações sobre a qualidade do software que é submetido ao teste. Além disso podem proporcionar uma visão objetiva sobre o as regras de negócio permitindo entender os riscos de implementação do software.</center>
+]
+---
+layout: false
+.left-column[
+  ## Introdução
+]
+.right-column[
+###<center>Teste de software é uma investigação conduzida para prover aos stakeholders informações sobre a qualidade do software que é submetido ao teste. Além disso podem proporcionar uma visão objetiva sobre o as regras de negócio permitindo entender os riscos de implementação do software.</center>
+
+###<center>Tecnicas de teste consistem no processo de executar um programa ou aplicação com a finalidade de encontrar bugs (erros ou defeitos) e garantir que o software, produto final, esta pronto para uso.</center>
+]
+---
+template: inverse
+
+# Níveis de Testes
+---
+layout: false
+.left-column[
+  ## Níveis de Testes
+]
+.right-column[
+
+Há tres principais tipos de testes, no nivel de desenvolvimento que são: Testes Unitários, Testes de Intergração, Testes de Sistema.
+
+Uma corrente bem forte defende a existencia de um quarto nível que pode ser empregado por desenvolvedores e analistas de negocio. Os Testes de Aceitação.
+]
+---
+layout: false
+.left-column[
+  ## Níveis de Testes
+]
+.right-column[
+
+# Testes Unitários
+
+Testes Unitarios referen-se a testes que verificam a funcionalidade de uma seção específica do código,
+usualmente no nível da função. Em orientação a objetos, esse nível encontra-se na classe, e os testes unitários mínimo incluem construtores e destrutores.
+]
+---
+layout: false
+.left-column[
+  ## Níveis de Testes
+  #### Testes Unitários
+  ]
+.right-column[
+
+### calculadora.py
+
+<pre><code>def soma(n1, n2):
+    return n1 + self</code></pre>
 
 
+### test_calculadora.py
+
+<pre><code>from unittest import TestCase
+from calculadora import soma
 
 
+class TestSoma(TestCase):
 
+    def test_soma(self):
+        self.assertEqual(soma(1, 1), 2)
 
+if __name__ == '__main__':
+    unittest.main()</code></pre>
 
-<meta name="author" content="Mauro Navarro Baraldi" />
-<meta name="description" content="Following is a review of my favorite mechanical keyboard." />
-<meta name="keywords" content="">
+### Executando o teste
 
-<meta property="og:site_name" content="Mauro Baraldi"/>
-<meta property="og:title" content="My First Review"/>
-<meta property="og:description" content="Following is a review of my favorite mechanical keyboard."/>
-<meta property="og:locale" content="en_US"/>
-<meta property="og:url" content="/my-first-review.html"/>
-<meta property="og:type" content="article"/>
-<meta property="article:published_time" content="2010-12-03 10:20:00-02:00"/>
-<meta property="article:modified_time" content=""/>
-<meta property="article:author" content="/author/mauro-navarro-baraldi.html">
-<meta property="article:section" content="Review"/>
-<meta property="og:image" content="">
+<pre><code>python test_calculadora.py
+.
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+OK</code></pre>
+]
+---
+layout: false
+.left-column[
+  ## Níveis de Testes
+]
+.right-column[
 
-  <title>Mauro Baraldi &ndash; My First Review</title>
+# Testes de Intergração
 
-</head>
-<body>
-  <aside>
-    <div>
-      <a href="">
-        <img src="/theme/img/profile.png" alt="" title="">
-      </a>
-      <h1><a href=""></a></h1>
+Testes de integração ie qualquer tipo de software que verifica as interfaces entre componentes em detrimento do design do software. Essas integrações podem ser entre modulos da mesma aplicação ou integração com servicos de terceiros.
 
+São muito usados nesse tipo de teste, para verificar se o contrato entre as interfaces esta sendo respeitado. As vezes servem como base para testes de disponibilidade ou monitoramento de serviços.
+]
+---
+layout: false
+.left-column[
+  ## Níveis de Testes
+  #### Testes de Integração
+  ]
+.right-column[
+Exemplo do Rocket.
+]
+---
+layout: false
+.left-column[
+  ## Níveis de Testes
+]
+.right-column[
 
-      <nav>
-        <ul class="list">
+# Testes de Aceitação
 
-          <li><a href="#" target="_blank">About</a></li>
-          <li><a href="#" target="_blank">Projects</a></li>
-          <li><a href="#" target="_blank">Articles</a></li>
-          <li><a href="#" target="_blank">Contact</a></li>
-        </ul>
-      </nav>
+Esse tipo de teste foca na disponibilidade do sistema como um artefato final que será executado no ambiente de produção.
 
-      <ul class="social">
-          <li>
-            <a  class="sc-github" href="https://github.com/maurobaraldi" target="_blank">
-                <i class="fab fa-github"></i>
-            </a>
-          </li>
-          <li>
-            <a  class="sc-linkedin" href="https://www.linkedin.com/in/maurobaraldi/" target="_blank">
-                <i class="fab fa-linkedin"></i>
-            </a>
-          </li>
-          <li>
-            <a  class="sc-stack-overflow" href="https://stackoverflow.com/users/841339/mauro-baraldi" target="_blank">
-                <i class="fab fa-stack-overflow"></i>
-            </a>
-          </li>
-          <li>
-            <a  class="sc-twitter" href="https://twitter.com/mauro_baraldi" target="_blank">
-                <i class="fab fa-twitter"></i>
-            </a>
-          </li>
-      </ul>
-    </div>
+Muitas vezes é conduzido não só pelo time de testes, mas também pelo Product Owner, a fim de atestar a qualidade do artefato final (sistema, ambiente e funcionalidaes) como entregra do trabalho.
+]
+---
+template: inverse
 
+# Outras Tecnicas de Testes
+---
+layout: false
+.left-column[
+  ## Outras Tecnicas
+]
+.right-column[
 
-  </aside>
-  <main>
+# Testes de Fumaça
 
+Testes simples e basicos que podem identificar um cenário que nem valha a pena fazer o build da aplicação (no show stopper).
+]
+---
+layout: false
+.left-column[
+  ## Outras Tecnicas
+]
+.right-column[
 
-<article class="single">
-  <header>
-      
-    <h1 id="my-first-review">My First Review</h1>
-    <p>
-          Posted on sex 03 dezembro 2010 in <a href="/category/review.html">Review</a>
+# Testes de Regressão
 
+O foco desses testes é garantir a retro compatibilidade das mudanças que estão sendo submetidas para avaliação e build, com a base de codigo já existente.
 
-    </p>
-  </header>
+Nenhum caso de teste antigo ou bug expecífico que ja tenha sido corrigido no passado deve quebra apos esses testes.
 
+Muito usado quando a versão do software, major, muda.
+]
+---
+layout: false
+.left-column[
+  ## Outras Tecnicas
+]
+.right-column[
 
-  <div>
-    <p>Following is a review of my favorite mechanical keyboard.</p>
-  </div>
-  <div class="tag-cloud">
-    <p>
-    </p>
-  </div>
+# Caminho Feliz (Happy Path)
 
+Testar um fluxo funcional completamente. O foco dessa tecnica não é encontrar bugs, mas garantir que esse fluxo siga com sucesso.
+]
+---
+layout: false
+.left-column[
+  ## Piramide de Testes
+]
+.right-column[
 
+![Piramide de Software](https://martinfowler.com/articles/practical-test-pyramid/testPyramid.png)
 
+.footnote[Imagem do livro Succeeding with Agile: Software Development Using Scrum [The Art of Software Testing](https://www.amazon.com.br/Succeeding-Agile-Development-Addison-Wesley-Signature-ebook/dp/B002TIOYWQ?tag=goog0ef-20&smid=A18CNA8NWQSYHH&ascsubtag=go_1366271959_70721127517_351260994638_pla-750106166283_c_)]
+]
+---
+template: inverse
 
+# Importancia dos Testes
+---
+layout: false
+.left-column[
+  ## Importancia dos Testes
+]
+.right-column[
 
-</article>
+A Tricentis faz um estudo anual do impacto dos bugs na industria em geral. Esses dados foram publicados em 2018, referente a 2017.
 
-    <footer>
-<p>&copy;  </p>
-<p>    Powered by <a href="http://getpelican.com" target="_blank">Pelican</a> - <a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a>
-</p>    </footer>
-  </main>
+Gastos com falhas de software: 1,715,430,778,504
 
+Tempo acumulado perdido: 268 anos, 8 meses, 2 semanas, 3 dias, 8 horas e 46 minutos
 
+Meses com mais incidência de falhas: Agosto a Dezembro
 
+Segmentos mais afetados: 
 
-<script type="application/ld+json">
-{
-  "@context" : "http://schema.org",
-  "@type" : "Blog",
-  "name": " Mauro Baraldi ",
-  "url" : "",
-  "image": "",
-  "description": ""
-}
-</script>
+- Varejo e Tecnologia de Consumo
 
-</body>
+- Serviço Publico e Sistema de Saúde
+
+- Transporte
+]
+---
+template: inverse
+
+# Estrategias para sistemas de testes
+---
+layout: false
+.left-column[
+  ## Estrategias para sistemas de testes
+]
+.right-column[
+
+- Testar o software a partir das fases iniciais
+
+- Testar a infra 
+
+- Testar a arquitetura
+
+- Manter uma boa qualidade e cobertura dos testes
+
+- Code reviews acurados
+
+- Foco nas funcionalidades
+
+- Usar ferramentas adequadas para testes
+
+- Testes independentes de dados
+
+- Equalizacao dos ambientes (local/development/homolog/prod)
+
+- Ambientes > Branches
+]
+---
+template: inverse
+
+# Ferramentas
+---
+layout: false
+.left-column[
+  ## Ferramentas
+]
+.right-column[
+
+- Linter: [JSLint](https://www.jslint.com/) para Javascript, [Pylint](https://www.pylint.org/
+) para Python
+
+- Coverage: [Istanbul](https://istanbul.js.org/) para Javascript e [Coverage](https://coverage.readthedocs.io/) para Python 
+
+- Test Frameworks: [Jasmine](https://jasmine.github.io/) para Javascript e [Pytest](https://docs.pytest.org) para Python
+]
+---
+layout: false
+.left-column[
+  ## Referencia
+]
+.right-column[
+- https://en.wikipedia.org/wiki/Software_testing
+- http://webcache.googleusercontent.com/search?q=cache:UollPGKQkDgJ:www.ecs.csun.edu/~rlingard/COMP595VAV/SoftwareTesting.ppt+&cd=16&hl=pt-BR&ct=clnk&gl=br
+- https://martinfowler.com/articles/practical-test-pyramid
+- https://en.wikipedia.org/wiki/Operational_acceptance_testing
+- https://www.tricentis.com/blog/software-fail-awards-2018/
+- https://martinfowler.com/articles/microservice-testing
+]
+---
+template: inverse
+
+# Perguntas
+---
+template: inverse
+
+# Obrigado!
+    </textarea>
+    <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+    <script>
+      var hljs = remark.highlighter.engine;
+    </script>
+    <script src="remark.language.js"></script>
+    <script>
+      var slideshow = remark.create({
+          highlightStyle: 'monokai',
+          highlightLanguage: 'remark',
+          highlightLines: true
+        }) ;
+    </script>
+    <script>
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-44561333-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script');
+        ga.src = 'https://ssl.google-analytics.com/ga.js';
+        var s = document.scripts[0];
+        s.parentNode.insertBefore(ga, s);
+      }());
+    </script>
+  </body>
 </html>
