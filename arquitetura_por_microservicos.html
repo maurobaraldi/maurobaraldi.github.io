@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="keywords" content="remark,remarkjs,markdown,slideshow,presentation" />
-    <meta name="description" content="A simple, in-browser, markdown-driven slideshow tool." />
+    <meta name="description" content="Pe" />
     <title>Arquitetura de Aplicação para Microserviços</title>
     <style>
       @import url(https://fonts.googleapis.com/css?family=Droid+Serif);
@@ -200,7 +200,7 @@ Consiste em decompor a aplicação principal em pequenos microserviços que são
 
 - Garante o baixo acoplamento
 
-Ter um domain model do serviço é fundamental para a aplicação desse padrão. Usar a abordagem do [Domain-Driven Design](https://en.wikipedia.org/wiki/Domain-driven_design) ajuda a reduzir as incertezas e bugs na fase de conceitual do projeto.
+Ter um domain model do serviço é fundamental para a aplicação desse padrão. Usar a abordagem do [Domain-Driven Design](https://en.wikipedia.org/wiki/Domain-driven_design) ajuda a reduzir as incertezas e bugs na fase conceitual do projeto.
 ]
 ---
 layout: false
@@ -214,7 +214,7 @@ Aplicar o padrão de [Database per Service](https://microservices.io/patterns/da
 
 - Cada serviço acessa suas tabelas, privadas.
 
-- O acesso aos dados, outras tabelas, é por meio dos serviços.
+- O acesso aos dados, que estão em outras tabelas, é por meio dos serviços.
 
 - Encapsulamento a nível de schemas/tabelas (ACL para serviço por tabela/schema).
 
@@ -236,7 +236,7 @@ layout: false
 ]
 .right-column[
 
-## Integração e comunicação entre os servicos.
+## Integração e comunicação entre os serviços.
 
 A integração e exposição dos serviços pode ser feita utilizando um [API Gateway](https://microservices.io/patterns/apigateway.html).
 
@@ -278,7 +278,7 @@ Com a arquitetura orientada a microserviços, é interessante aplicar o padrão 
 layout: false
 .left-column[
   ## Proposta
-  #### Disponibilidade
+  #### Disponinilidade
 ]
 .right-column[
 
@@ -288,17 +288,17 @@ Para garantir o SLA e SLO podemos utilizar um load balancer com auto-scaling par
 
 - Um load balancer por serviço.
 
-- Definir um plano de autoscaling para as intancias.
+- Definir um plano de autoscaling para as instâncias.
 ]
 ---
 layout: false
 .left-column[
   ## Proposta
-  #### Montoramento e Troubleshooting
+  #### Monitoramento e Troubleshooting
 ]
 .right-column[
 
-## Montoramento e Troubleshooting
+## Monitoramento e Troubleshooting
 
 Para ter uma visibilidade do ambiente e para mitigar os problemas podemos implementar os seguintes padrões e servicos:
 
@@ -344,7 +344,7 @@ layout: false
 
 ## CI/CD e Qualidade
 
-Definir um bom plano de deploy por meio de um sistema de integração continua é imprescindível para grantir a qualidade da aplicação.
+Definir um bom plano de deploy por meio de um sistema de integração continua é imprescindível para garantir a qualidade da aplicação.
 
 - CI/CD: Jenkins ou AWS Pipeline.
 
@@ -365,7 +365,7 @@ Definir um bom plano de deploy por meio de um sistema de integração continua �
 layout: false
 .left-column[
   ## Proposta
-  #### Processos.
+  #### Processos
 ]
 .right-column[
 
