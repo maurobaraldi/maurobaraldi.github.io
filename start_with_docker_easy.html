@@ -1,0 +1,646 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="keywords" content="remark,remarkjs,markdown,slideshow,presentation" />
+    <meta name="description" content="A simple, in-browser, markdown-driven slideshow tool." />
+    <title>Docker - Introdução e boas práticas</title>
+    <style>
+      @import url(https://fonts.googleapis.com/css?family=Droid+Serif);
+      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+
+      body {
+        font-family: 'Droid Serif';
+      }
+      h1, h2, h3 {
+        font-family: 'Yanone Kaffeesatz';
+        font-weight: 400;
+        margin-bottom: 0;
+      }
+      .remark-slide-content h1 { font-size: 3em; }
+      .remark-slide-content h2 { font-size: 2em; }
+      .remark-slide-content h3 { font-size: 1.6em; }
+      .footnote {
+        position: absolute;
+        bottom: 3em;
+      }
+      li p { line-height: 1.25em; }
+      .blue { color: #6687b1; }
+      .large { font-size: 2em; }
+      .medium-small {
+          font-size: .75em;
+          line-height: 90%;
+        }
+      .medium { font-size: .8em; }
+      a, a > code {
+        color: #6687b1;
+        text-decoration: none;
+      }
+      code {
+        background: #e7e8e2;
+        border-radius: 5px;
+      }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+      .remark-code-line-highlighted     { background-color: #373832; }
+      .pull-left {
+        float: left;
+        width: 47%;
+      }
+      .pull-right {
+        float: right;
+        width: 47%;
+      }
+      .pull-right ~ p {
+        clear: both;
+      }
+      #slideshow .slide .content code {
+        font-size: 0.8em;
+      }
+      #slideshow .slide .content pre code {
+        font-size: 0.9em;
+        padding: 15px;
+      }
+      .inverse {
+        background: #272822;
+        color: #777872;
+        text-shadow: 0 0 20px #333;
+      }
+      .inverse h1, .inverse h2 {
+        color: #f3f3f3;
+        line-height: 0.8em;
+      }
+
+      /* Slide-specific styling */
+      #slide-inverse .footnote {
+        bottom: 12px;
+        left: 20px;
+      }
+      #slide-how .slides {
+        font-size: 0.9em;
+        position: absolute;
+        top:  151px;
+        right: 140px;
+      }
+      #slide-how .slides h3 {
+        margin-top: 0.2em;
+      }
+      #slide-how .slides .first, #slide-how .slides .second {
+        padding: 1px 20px;
+        height: 90px;
+        width: 120px;
+        -moz-box-shadow: 0 0 10px #777;
+        -webkit-box-shadow: 0 0 10px #777;
+        box-shadow: 0 0 10px #777;
+      }
+      #slide-how .slides .first {
+        background: #fff;
+        position: absolute;
+        top: 20%;
+        left: 20%;
+        z-index: 1;
+      }
+      #slide-how .slides .second {
+        position: relative;
+        background: #fff;
+        z-index: 0;
+      }
+
+      /* Two-column layout */
+      .left-column {
+        color: #777;
+        width: 20%;
+        height: 92%;
+        float: left;
+      }
+        .left-column h2:last-of-type, .left-column h3:last-child {
+          color: #000;
+        }
+      .right-column {
+        width: 75%;
+        float: right;
+        padding-top: 1em;
+      }
+    </style>
+  </head>
+  <body>
+    <textarea id="source">
+name: inverse
+layout: true
+class: center, middle, inverse
+---
+#Docker - Introdução e boas práticas
+
+### Por time de SRE da Vindi.
+
+.footnote[Esses slides podem ser encontrados no [Gist](https://gist.github.com/maurobaraldi/7ea33e426a030c96367f430bb67bc1e6)]
+---
+# Agenda
+---
+layout: false
+.left-column[
+  ## Agenda
+]
+.right-column[
+###.blue[Primeira Parte - Introdução ao Docker]
+
+- Conceitos básicos
+- Porque usar?
+- Principais funcionalidades
+
+###.blue[Segunda Parte - Usando Docker]
+
+- Imagens e Dockerfile
+- Containers
+- Melhores Práticas
+- Ambiente de desenvolvimento (docker-compose)
+- Padronizando o ambiente.
+
+###.blue[Terceira Parte - Exemplos]
+
+- Postgres & MySQL
+- Flask & Sinatra
+- Volumes
+- All together now!
+]
+---
+template: inverse
+
+# Introdução ao Docker
+---
+.left-column[
+  ## Docker
+  ## Introdução
+]
+.right-column[
+.medium[Docker é um software contêiner da empresa Docker, Inc, que fornece uma camada de abstração e automação para virtualização de sistema operacional no Windows, OSX e no Linux, usando isolamento de recurso do núcleo do Linux como cgroups e espaços de nomes do núcleo, e um sistema de arquivos com recursos de união, como OverlayFS criando contêineres independentes para executar dentro de uma única instância do sistema operacional, evitando a sobrecarga de manter máquinas virtuais]
+
+.medium[Fonte: Wikipédia]
+]
+---
+.left-column[
+  ## Docker
+  ## Introdução
+]
+.right-column[
+
+.center[
+## Arquitetura
+]
+
+.right[![Right-aligned image](https://docs.docker.com/engine/images/engine-components-flow.png)]
+
+]
+---
+.left-column[
+  ## Docker
+  ## Introdução
+]
+.right-column[
+
+.center[
+## Porque usar Docker
+]
+- Isolamento e segmentação das aplicações.
+
+- Consome menos recursos que uma maquina virtual.
+
+- Equalização dos ambientes.
+
+- Facilita a administração da infra.
+
+- Escalabilidade.
+]
+---
+.left-column[
+  ## Docker
+  ## Introdução
+]
+.right-column[
+
+.center[
+## Principais funcionalidades (comandos)
+
+]
+- **build**: Construir imagens a partie de um Dockerfile.
+
+- **pull**: Atualizar as imagens.
+
+- **run**: Subir um container a partir de uma imagem pré construida.
+
+- **log**: Exibe os logs do container (syslog).
+
+- **start**/**stop**: Inicia/para a execução de um container.
+
+- **ps**: Lista os container ativos e inativos e seu status.
+
+- **image**: Mostra informações sobre as imagens.
+
+- **volumes**: Mostra informações sobre os volumes.
+
+- **network**: Mostra informações sobre as redes.
+
+]
+---
+template: inverse
+
+# Usando o Docker
+---
+name: how
+
+.left-column[
+  ## Usando Docker
+  ## Dockerfile 
+]
+.right-column[
+
+O arquivo Dockerfile contém as definições para construir o container.
+
+]
+---
+.left-column[
+  ## Usando o Docker
+  ## Dockerfile
+]
+.right-column[
+```
+# Imagem base image:version
+FROM ruby:2.3
+
+# Metadados
+LABEL version="0.0.1"
+LABEL description="Dockerfile base for any purpose."
+LABEL maintainer="Vindi SRE Team - www.vindi.com.br"
+
+# Define q usuário e o grupo que será usadno durante o build.
+USER user:user
+
+# Expõe portas do container para ser accessível externamente.
+EXPOSE 3000/tcp
+
+# Argumentos passado pelo docker build durante a construção do container
+ARG environment=development
+
+# Definição das variáveis de ambiente.
+ENV PORT=3000
+
+# Definei o diretorio de trabalho no container. (RUN, CMD, ENTRYPOINT, COPY and ADD)
+WORKDIR /code
+
+# Adiciona arquivos no container
+ADD /home/user/project/run.rb /code/recurrent
+ADD http://www.example.com/example.txt /code/recurrent/docs
+
+# Copia arquivos no container
+COPY --chown=user:user /home/user/project/worker.rb /code/recurrent/tasks
+
+```
+]
+---
+.left-column[
+  ## Usando o Docker
+  ## Dockerfile
+  ### Continuação
+]
+.right-column[
+```
+# Executa comandos no container durante o build.
+RUN apt-get install rails
+RUN ["/usr/bin/ruby", "run.rb", "--env", "${environment}"]
+
+# Cria um ponto de montagem entre o host e o container.
+VOLUME /var/log /var/log
+
+# Comando que o container executará quando subir.
+CMD /usr/bin/rails server
+```
+]
+---
+.left-column[
+  ## Usando o Docker
+  ## Build
+]
+.right-column[
+## Construindo o container
+
+Argumentos necessarios para a construção de um container.
+
+--tag/ -t: `name:tag` Nome e tag para identificar a sua imagem na biblioteca de imagens
+
+--file/ -f: Nome do arquivo que será usado para construir a imagem (Se o arquivo não tiver nomeado como Dockerfile).
+
+**Exemplos**
+
+`docker build -t vindi:recorrencia .`
+
+Especificando o arquivo do build.
+
+`docker build -t vind:recorrencia -f dockerfiles/plataforma`
+
+]
+---
+.left-column[
+  ## Usando o Docker
+  ## Containers
+]
+.right-column[
+## Rodando containers
+
+O Docker busca na sua lista de imagens locais antes de bsucar fora pela imagem que será eecutada.
+
+Ha centenas de conbinaçãoes de parametros e opções para executar containers. Entretanto a forma mais simples e funcional para executar um container:
+
+`docker run --name app -d -p 80:3000 vindi:recorrencia`
+
+]
+---
+.left-column[
+  ## Usando o Docker
+  ## Containers
+]
+.right-column[
+## Rodando containers com parametros extras.
+
+```
+docker run --name platform -d -i \
+    --rm \
+    -p 80:3000 \
+    -p 2222:22 \
+    --cpus=".5" \
+    --memory="512m \
+    -e "DEBUG=True" \
+    -e "WORKERS_COUNT=2" \
+    -l "container da app" \
+    --log-driver "fluentd" \
+    --net "private" \
+    -v /var/lib/nginx:/var/lib/nginx \
+    -v /home/user:/root \
+    --restart=yes
+```
+]
+---
+.left-column[
+  ## Usando o Docker
+  ## Melhores Práticas
+]
+.right-column[
+### Crie Containers Efemeros
+
+Crie containers que não mantenham estado (stateless).
+
+Containers não devem depende de alguma interação de setup ou configuração para iser erncerrados, destruidos ou reconstruidos.
+
+### Use o .dockerignore
+
+Coloque os arquivos desnecessários para a aplicação no .dockerignore.
+
+### Builds multi-stage
+
+Diminui drasticamente o tamanho das imagens finais.
+
+### Instale somente o necessário
+
+Se o container refere-se a uma aplicação que executa uma tarefa agendada e recorrentemente, o container não precisa de um editor de texto ou uma lib que renderiza 3D.
+
+]
+---
+.left-column[
+  ## Usando o Docker
+  ## Melhores Práticas
+]
+.right-column[
+### Um processo para um container
+
+Desacoplar aplicações em multiplos containers, facilita escalar hoirzontalmente e favorece o reuso de containers.
+
+### Quebre os comandos e argumentos em multiplas linhas
+
+```
+RUN apt-get update && apt-get install -y \
+    git \
+    mercurial \
+    subversion
+```
+
+### Prefira usar o COPY ao ADD
+
+Ambos tem uma funcionalidade similar, entretando o COPY pode ter menos efeitos colaterais. O ADD também pode copiar arquivos de URL e extrai automaticamente arquivos .tar.*z
+
+### Uso de Volumes
+
+Usar volumes em ambiente de desenvolvimento pode ajudar bastante em casos que esteja trablhando em arquivos que possam ser autocarregados pela aplicação.
+
+]
+---
+.left-column[
+  ## Usando o Docker
+  ## Melhores Práticas
+]
+.right-column[
+### O cache é seu amigo
+
+Cada passo no Dockerfile é executado como uma imagem e armazenada na biblioteca de imagens do Docker.
+
+Má prática
+
+```
+FROM ubuntu:18.04
+
+RUN apt-get update
+RUN apt-get install -y git
+RUN apt-get install -y ruby-dev
+```
+
+Boa prática
+
+```
+FROM ubuntu:18.04
+
+RUN apt-get update && apt-get install -y \
+    git \
+    ruby-dev
+    && rm -rf /var/lib/apt/lists/*
+```
+
+Limpe o cache do apt ao fim da criação da imagem para reduzir o tamanho da imagem.
+
+Para invalidar o cache e reconstruir a imagem fresquinha use a opção `--no-cache=true`
+]
+---
+template: inverse
+
+# Docker para ambiente de desenvolvimento.
+---
+.left-column[
+  ## Docker
+  ### Compose
+]
+.right-column[
+## Docker Compose
+
+Docker Compose é uma ferramenta de definição e execução de multiplos containers e integração entre eles.
+]
+---
+.left-column[
+  ## Docker
+  ### Compose
+]
+.right-column[
+
+### Exemplo base para um arquivo docker-compose com Sianatra
+
+```
+version: "3.3"
+services:
+    postgres:
+        image: postgres:9.6
+        ports:
+            - "5432:5432"
+        environment:
+            POSTGRES_PASSWORD: ae82d32dfa3b491ba387e52067c
+        volumes:
+            - /var/lib/postgres:/var/lib/postgres
+    redis:
+        image: apline:redis
+    web:
+        build:
+            context: "."
+            dockerfile: Dockerfile
+        depends_on:
+            - postgres
+            - redis
+        ports:
+            - "3000:38000"
+        volumes:
+            - /home/maurobaraldi:/root/tmp
+```
+]
+---
+.left-column[
+  ## Docker
+  ### Compose
+]
+.right-column[
+
+### Exemplo base para um arquivo docker-compose - Dockerfile
+
+```
+FROM ruby:slim
+
+ENV RACK_ENV production
+ENV MAIN_APP_FILE web.rb
+
+RUN apt-get update -qq && apt-get install -y build-essential
+RUN gem install sinatra rerun && mkdir -p /usr/src/app
+
+WORKDIR /code
+
+ADD app.rb /code
+
+CMD rerun 'ruby /code/app.rb'
+```
+]
+---
+.left-column[
+  ## Docker
+  ### Compose
+]
+.right-column[
+
+### Exemplo base para um arquivo docker-compose com Flask
+
+```
+version: "3.3"
+services:
+    postgres:
+        image: postgres:9.6
+        ports:
+            - "5432:5432"
+        environment:
+            POSTGRES_PASSWORD: ae82d32dfa3b491ba387e52067c
+        volumes:
+            - /var/lib/postgres:/var/lib/postgres
+    redis:
+        image: apline:redis
+    web:
+        build:
+            context: "."
+            dockerfile: Dockerfile
+        depends_on:
+            - postgres
+            - redis
+        ports:
+            - "3000:38000"
+        volumes:
+            - /home/maurobaraldi:/root/tmp
+```
+]
+---
+.left-column[
+  ## Docker
+  ### Compose
+]
+.right-column[
+
+### Exemplo base para um arquivo docker-compose - Dockerfile
+
+```
+FROM python:slim
+
+ENV FLASK_APP=app.py
+ENV FLASK_ENV=development
+
+WORKDIR /code
+
+COPY . /code
+
+RUN pip3 install -r requirements.txt
+
+CMD flask run --host 0.0.0.0
+```
+]
+---
+References:
+##Referências
+
+https://www.thepolyglotdeveloper.com/2017/03/nginx-reverse-proxy-containerized-docker-applications/
+
+https://docs.docker.com/compose/gettingstarted/
+
+https://docs.docker.com/compose/gettingstarted/
+
+https://docs.docker.com/develop/develop-images/dockerfile_best-practices/
+---
+name: last-page
+template: inverse
+
+## That's all folks (for now)!
+
+    </textarea>
+    <script src="remark-latest.min.js"></script>
+    <script>
+      var hljs = remark.highlighter.engine;
+    </script>
+    <script src="remark.language.js"></script>
+    <script>
+      var slideshow = remark.create({
+          highlightStyle: 'monokai',
+          highlightLanguage: 'remark',
+          highlightLines: true
+        }) ;
+    </script>
+    <script>
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-44561333-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script');
+        ga.src = 'https://ssl.google-analytics.com/ga.js';
+        var s = document.scripts[0];
+        s.parentNode.insertBefore(ga, s);
+      }());
+    </script>
+  </body>
+</html>
