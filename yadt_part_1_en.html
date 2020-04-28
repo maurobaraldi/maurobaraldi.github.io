@@ -1,0 +1,129 @@
+<h2>YADT - Yet Another Docker Tutorial</h2>
+
+<p>There are a lot of tutorial to Docker, some are intutitve but some are not. The point is that Docker is not just a container service application. It may be a container solution to prototype a simple app to a complete solution to an complex environment with voluming and netowrking. So I decided to write a evolutive tutorial to Docker. The tutorial evolves from the begining of an app to a complete environment of a project.</p>
+
+<h3>Instalation.</h3>
+
+<p>The documentation of Docker to install on most diverse plataform is pretty decent to be followed at https://www.docker.com/get-started</p>
+
+<h3>Containers - Basic Operations</h3>
+
+<p>"LXC (Linux Containers) is an operating-system-level virtualization method for running multiple isolated Linux systems (containers) on a control host using a single Linux kernel." from <a href="https://en.wikipedia.org/wiki/LXC">Wikipedia</a></p>
+
+<p>The most common, and certainly the most used, feature of Docker is the containers. As they share the main resources of the host (kernel), we can choice an Linux distribution and run it on a container. We can see it as units of  machine. And as units of machine, we can run, stop and collect status from containers. The fist step to run a container is to choice an image to load in container. To run a container with an Ubuntu image use:</p>
+
+<p><code>docker container run --interative --tty ubuntu</code></p>
+
+<p><strong>docker</strong>: base command for any activity.
+<strong>container</strong>: command to manage containers.
+<strong>run</strong>: command to run a container.
+<strong>--interactive</strong>: keep the container active.
+<strong>--tty</strong>: connect to the console container.
+<strong>ubuntu</strong>: image name.</p>
+
+<p>This is the most intuitve start to containers. At this point you have started a container and is dropped into it. This is an Linux shell, try it. To exit, as most consoles, type <code>exit</code>.</p>
+
+<p>When you exist the container, it is stopped (turned off). You can restart that same container, or start a new one. Every container has some info to identify it: name, id, image loaded, status, and when it was created. You can collect much more info from a container, but these are good enough to start. To list which containers you have in your platform, use:</p>
+
+<p>```
+docker container ls</p>
+
+<p>CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+```</p>
+
+<p><strong>ls</strong>: list the containers.</p>
+
+<p>This list will show containers all running containers. If the container was stopped, it will no appear in this lits. To show containers with all statuses, use the <code>-a</code> at the end.</p>
+
+<p>```
+docker container ls -a</p>
+
+<p>CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS                     PORTS               NAMES
+6ec4a9bce31b        ubuntu              "/bin/bash"         3 minutes ago       Exited (0) 3 minutes ago                       thirsty_wing
+```
+Once the container is stopped, it could be started. And as intuitive as it could be, just run:</p>
+
+<p><code>docker container start thirsty_wing</code></p>
+
+<p><strong>start</strong>: start a stopped container</p>
+
+<p>However, Docker containers are different to virtual machines, because if you start a container without no one instruction after it loads it will stop. Because they need some instruction to execute after boot. That's why we use <code>--interactive</code> and <code>--tty</code> to junp into the shell, otherwise it will stop right after it starts.</p>
+
+<p>If you start a container with an interactive console, and junp to another window an list the active containers, you will see the status of container and could manipulate this container from outside the container. For example, start the container with interactive console. Open a new shell window, and list the active containers. The result should be anything like
+<code>
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+7a970f3ab3cd        ubuntu              "/bin/bash"         8 seconds ago       Up 7 seconds                            blissful_hopper
+</code>
+This container could be just a console container, or a database service, or any other app. As it is a running container you can stop it, or even restart. </p>
+
+<p><code>docker container restart thirsty_wing</code></p>
+
+<p>or</p>
+
+<p><code>docker container stop thirsty_wing</code></p>
+
+<p><strong>restart</strong>: restart a stopped container
+<strong>restart</strong>: stop a running container</p>
+
+<p>But if you restart this container, it will not be up again, because he doesn't has an instruction to be executed after the start, so it will remain stopped.</p>
+
+<p>A feature rarely used is to pause/unpause containers. The <strong>pause</strong> mimic the behavior of sign <code>SIGSTOP</code> and the <strong>stop</strong> mimic the combo of signal <code>SIGTERM</code> and after grace period, <code>SIGKILL</code>. To see this features in action, follow the same steps from run a container with interactive console in one window, then open another window to manipulate it. After started the container, list containers to get the name of running container, then pause the container.</p>
+
+<p><code>docker container pause &lt;container_name&gt;</code></p>
+
+<p><strong>pause</strong>: pause all process from container</p>
+
+<p>Go back to the container window then you will see that the console is inoperate, because you have paused all process from container. To regain control from the container, unpause it.</p>
+
+<p><code>docker container unpause &lt;container_name&gt;</code></p>
+
+<p><strong>unpause</strong>: unpause all process from container</p>
+
+<p>The control of console from container could be restored. </p>
+
+<p>To force the stop of a container we could use the kill command. It's preety much like a <code>kill -9</code>.</p>
+
+<p><code>docker container kill &lt;container_name&gt;</code></p>
+
+<p><strong>kill</strong>: force stop of a container</p>
+
+<h3>Interacting with the container</h3>
+
+<p>As you have a container up and running, you can interact with the container from outside. It may be connecting to container, gettting logs from it execution, renaming the contianer among other activities.</p>
+
+<p>Execute commands in a container that is running but on daemon mode, is a trivial task that you can achieve using <code>exec</code> sub-command and the command you want to run.</p>
+
+<p><code>docker container exec &lt;container name&gt; &lt;command&gt;</code></p>
+
+<p><strong>exec</strong>: Run a command in a running container</p>
+
+<p>The <code>exec</code> command is pretty much like with <code>run</code> command. So if you want to go to console, run the command with <code>--interactive</code> and <code>--tty</code>. If you only need the result, just run the command.
+<code>
+$ docker container exec thirsty_wing uname -a
+Linux ed685aa73d03 5.3.0-46-generic #38-Ubuntu SMP Fri Mar 27 17:37:05 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux
+</code>
+If the container is running process that has some log and it is configured to output this log, you can access it with <code>logs</code> sub-command.</p>
+
+<p><code>docker container logs &lt;container name&gt;</code></p>
+
+<p><strong>logs</strong>: fetch all logs of a container</p>
+
+<p>To list which process is running in container you can use <code>top</code> sub-command.</p>
+
+<p><code>
+$ docker container top wonderful_gagarin 
+UID                 PID                 PPID                C                   STIME               TTY                 TIME                CMD
+root                10457               10440               0                   11:45               pts/0               00:00:00            /bin/bash
+</code></p>
+
+<p>To have more information about commands, type <code>docker container --help</code> and <code>docker container &lt;sub-command&gt; --help</code> you will see all the options from each command/sub-command.</p>
+
+<h3>More about it</h3>
+
+<p>To know more about it follow this.</p>
+
+<p><a href="https://en.wikipedia.org/wiki/LXC">LXC - Linux Containers</a>
+<a href="https://en.wikipedia.org/wiki/Signal_(IPC">Signals</a>)
+<a href="https://docs.docker.com/get-started/overview/">Docker Overview</a></p>
+
+<p>This is the first part of a couple articles about Docker and its features. The idea of ​​this tutorial is that each topic has, at least a basic and intermediate, sometimes an advanced part to describe the learning evolution of Docker container's.</p>
